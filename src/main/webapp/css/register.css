@@ -1,4 +1,4 @@
- body {
+body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -9,7 +9,41 @@
       justify-content: center;
       color: #fff;
     }
-    
+    .password-container {
+    position: relative;
+    width: 100%;
+}
+
+	/* 	.password-container input {
+		    width: 100%;
+		    padding-right: 400px;
+		}
+		
+		.toggle-password {
+		    position: absolute;
+		    right: 1px;
+		    top: 5%;
+		    transform: translateY(50%);
+		    cursor: pointer;
+		    color: #6452e3;
+		    transition: color 0.3s ease;
+		}
+		
+		#toggle-password:hover {
+		    color: #8672ff;
+		} */
+    .fa-eye:before {
+      content: "\f06e";
+      position: absolute;
+      top: 51%;
+      right: 16%;
+  }    
+  .fa-eye {
+    content: "\f06e";
+    position: absolute;
+    top: 51%;
+    right: 16%;
+}    
     .container {
       display: flex;
       width: 1000px;

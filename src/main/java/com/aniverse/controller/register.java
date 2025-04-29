@@ -42,6 +42,7 @@ public class register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String errorMessage = validateRegistrationForm(request);
+		request.setAttribute("message", errorMessage);
 		System.out.println(errorMessage);
         if (errorMessage != null) {
             request.setAttribute("error", errorMessage);
@@ -81,6 +82,7 @@ public class register extends HttpServlet {
             return "Invalid email format.";
 
         if (!ValidationUtil.isValidPassword(password))
+        	
             return "Password must be at least 8 characters long, with 1 uppercase letter, 1 number, and 1 special symbol.";
 
         return null; // All validations passed

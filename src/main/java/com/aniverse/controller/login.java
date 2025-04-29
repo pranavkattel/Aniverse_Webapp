@@ -66,13 +66,15 @@ public class login extends HttpServlet {
                 }
             } else {
                 // Invalid password
+            	 request.setAttribute("message1", "Invalid password for user");
                 System.out.println("Invalid password for user: " + username);
-                response.sendRedirect(request.getContextPath() + "/login");
+                request.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(request, response);
             }
         } else {
             // Invalid username
+        	 request.setAttribute("message", "Username not found");
             System.out.println("Username not found: " + username);
-            response.sendRedirect(request.getContextPath() + "/login");
+            request.getRequestDispatcher("WEB-INF/pages/login.jsp").forward(request, response);
         }
     }
 

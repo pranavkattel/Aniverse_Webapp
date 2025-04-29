@@ -1,11 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/register.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 <div class="container">
@@ -32,7 +33,9 @@
     
     <div class="right-panel">
       <div class="form-title">Create Your Account</div>
-      
+      <c:if test="${not empty message}">
+    		<p  style="color: white;">${message}</p>
+	   </c:if>
       <form action="register"  method="POST">
         <div class="form-group">
           <label for="username">Username</label>
@@ -45,9 +48,15 @@
         </div>
         
         <div class="form-group">
-          <label for="password">Password</label>
-          <input name="password" type="password" id="password" placeholder="Create a strong password">
-        </div>
+              <label for="password">Password</label>
+              <div style="position:relative;" class="password-container">
+                 <span><input name="password" type="password" id="password" placeholder="Create a strong password"></span>
+                  <span class="eye"><i class="fas fa-eye toggle-password" id="togglePassword" style="
+    position: absolute;
+    top: 35%;
+    right: 2%;"></i></span>
+              </div>
+          </div>
         
         <div class="form-group">
           <label>Favorite Genres</label>
@@ -71,13 +80,27 @@
   </div>
 
 <script>
-    // Simple interaction for genre selection
+    // Genre selection
     document.querySelectorAll('.genre-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        chip.classList.toggle('selected');
-      });
+        chip.addEventListener('click', () => {
+            chip.classList.toggle('selected');
+        });
     });
-  </script>
+
+    // Password toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function() {
+        // Toggle password visibility
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        // Toggle the eye icon
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 
 </body>
 </html>

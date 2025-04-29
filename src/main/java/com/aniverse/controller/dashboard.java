@@ -15,6 +15,7 @@ import java.io.IOException;
 @WebServlet("/dashboard")
 public class dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	String currentUsernameFromSession;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,6 +37,8 @@ public class dashboard extends HttpServlet {
 	        response.sendRedirect(request.getContextPath() + "/login");
 	        return; // Stop further processing
 	    }
+	    currentUsernameFromSession = (String) session.getAttribute("user");
+	    request.setAttribute("userFromDb", currentUsernameFromSession);
 
 		request.getRequestDispatcher("WEB-INF/pages/dashboard.jsp").forward(request, response);
 	}
