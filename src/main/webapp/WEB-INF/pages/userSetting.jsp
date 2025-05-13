@@ -38,18 +38,14 @@
     </style>
 </head>
 <body>
-    <%-- Include your standard navbar - Adjust path as needed --%>
+    
   
-
+	 <jsp:include page="/WEB-INF/components/header.jsp" />
     <div class="container settings-container">
         <h2>Account Settings</h2>
         
 		
 
-        <%-- Check if user is logged in and available in session --%>
-        <%-- <c:if test="${not empty password}">
-    				<p  style="color: white;" border>${password}</p>
-		</c:if> --%>
 
         <c:if test="${not empty userFromDb}">
             <%-- Make user data easily accessible --%>

@@ -19,24 +19,7 @@
     <img src="${pageContext.request.contextPath}/resources/system/anime_girl_1.jpg" alt="Floating anime character 3" class="floating-images floating-3" onerror="this.style.display='none'">
     <img src="${pageContext.request.contextPath}/resources/system/anime_girl_2.jpg" alt="Floating anime character 4" class="floating-images floating-4" onerror="this.style.display='none'">
 
-    <nav class="navbar">
-        <div class="logo">
-            <img src="https://placehold.co/40x40/5d5fef/ffffff?text=AT" alt="aniverse Logo" onerror="this.src='https://placehold.co/40x40/cccccc/ffffff?text=Logo'">
-        </div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Anime</a>
-            <a href="#">Manga</a>
-            <a href="#">Community</a>
-            <a href="#">News</a>
-        </div>
-        <div class="right-nav">
-            <button class="login-btn">MY PROFILE</button>
-            <a href="/Aniverse/accountsettings" class="settings-btn" >
-                <img src="${pageContext.request.contextPath}/resources/system/settings.png" alt="Settings" width="24" height="24">
-            </a>
-        </div>
-    </nav>
+      <jsp:include page="/WEB-INF/components/header.jsp" />
 
     <div class="container">
         <div class="dashboard-header">  
@@ -58,20 +41,20 @@
 
         <div class="dashboard-stats">
             <div class="stat-card">
-                <div class="stat-number">42</div>
+                <div class="stat-number">${totalAnime}</div>
+                <div class="stat-label">Total Anime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">${watching}</div>
                 <div class="stat-label">Watching</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">189</div>
+                <div class="stat-number">${completed}</div>
                 <div class="stat-label">Completed</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">67</div>
-                <div class="stat-label">Plan to Watch</div>
-            </div>
              <div class="stat-card">
-                <div class="stat-number">15</div>
-                <div class="stat-label">Dropped / On Hold</div>
+                <div class="stat-number">${planToWatch}</div>
+                <div class="stat-label">Plan to Watch</div>
             </div>
         </div>
 
@@ -146,108 +129,45 @@
                                  <th>Actions</th>
                              </tr>
                          </thead>
-                         <tbody id="my-anime-list-body">
-    <tr data-anime-id="101">
-        <td class="anime-poster-cell">
-            <img src="${pageContext.request.contextPath}/resources/animes/aot.webp" alt="Attack on Titan Poster">
-        </td>
-        <td class="title-cell">
-            <span class="main-title">Attack on Titan: Final Season</span>
-            <span class="alt-title">Shingeki no Kyojin</span>
-        </td>
-        <td class="score-cell">9.2</td>
-        <td>8 / 12</td>
-        <td><span class="status-badge status-watching">Watching</span></td>
-        <td class="action-buttons">
-            <button class="edit-btn" title="Edit Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="delete-btn" title="Delete Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-            </button>
-        </td>
-    </tr>
-    <tr data-anime-id="102">
-        <td class="anime-poster-cell">
-            <img src="${pageContext.request.contextPath}/resources/animes/dandadan.jpg" alt="Dandadan Poster">
-        </td>
-        <td class="title-cell">
-            <span class="main-title">Dandadan</span>
-            <span class="alt-title">ダンダダン</span>
-        </td>
-        <td class="score-cell">9.1</td>
-        <td>64 / 64</td>
-        <td><span class="status-badge status-completed">Completed</span></td>
-        <td class="action-buttons">
-            <button class="edit-btn" title="Edit Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="delete-btn" title="Delete Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-            </button>
-        </td>
-    </tr>
-    <tr data-anime-id="103">
-        <td class="anime-poster-cell">
-            <img src="${pageContext.request.contextPath}/resources/animes/bluelock.jpg" alt="Blue Lock Poster">
-        </td>
-        <td class="title-cell">
-            <span class="main-title">Blue Lock</span>
-            <span class="alt-title">ブルーロック</span>
-        </td>
-        <td class="score-cell">8.7</td>
-        <td>24 / 24</td>
-        <td><span class="status-badge status-completed">Completed</span></td>
-        <td class="action-buttons">
-            <button class="edit-btn" title="Edit Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="delete-btn" title="Delete Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-            </button>
-        </td>
-    </tr>
-    <tr data-anime-id="104">
-        <td class="anime-poster-cell">
-            <img src="${pageContext.request.contextPath}/resources/animes/onepiece.jpg" alt="One Piece Poster">
-        </td>
-        <td class="title-cell">
-            <span class="main-title">One Piece</span>
-            <span class="alt-title">ワンピース</span>
-        </td>
-        <td class="score-cell">9.5</td>
-        <td>1080 / -</td>
-        <td><span class="status-badge status-watching">Watching</span></td>
-        <td class="action-buttons">
-            <button class="edit-btn" title="Edit Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="delete-btn" title="Delete Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-            </button>
-        </td>
-    </tr>
-    <tr data-anime-id="105">
-        <td class="anime-poster-cell">
-            <img src="${pageContext.request.contextPath}/resources/animes/angelbeats.webp" alt="Angel Beats Poster">
-        </td>
-        <td class="title-cell">
-            <span class="main-title">Angel Beats!</span>
-            <span class="alt-title">エンジェルビーツ</span>
-        </td>
-        <td class="score-cell">8.3</td>
-        <td>13 / 13</td>
-        <td><span class="status-badge status-completed">Completed</span></td>
-        <td class="action-buttons">
-            <button class="edit-btn" title="Edit Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-            </button>
-            <button class="delete-btn" title="Delete Entry">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-            </button>
-        </td>
-    </tr>
-</tbody>
+                        	<tbody id="my-anime-list-body">
+                <c:forEach var="anime" items="${animeList}">
+                    <tr data-anime-id="${anime.animeId}">
+                        <td class="anime-poster-cell">
+                            <img src="${pageContext.request.contextPath}/resources/animecover/${anime.title}.jpg" 
+                                 onerror="this.src='${pageContext.request.contextPath}/resources/animes/default.jpg'" 
+                                 alt="${anime.title} Poster">
+                        </td>
+                        <td class="title-cell">
+                            <span class="main-title">${anime.title}</span>
+                            <span class="alt-title">${anime.type} - ${anime.season}</span>
+                        </td>
+                        <td class="score-cell">
+                            <c:choose>
+                                <c:when test="${anime.userScore != null}">${anime.userScore}</c:when>
+                                <c:otherwise>-</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            ${anime.progress} / 
+                            <c:choose>
+                                <c:when test="${anime.episodes != null}">${anime.episodes}</c:when>
+                                <c:otherwise>-</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <span class="status-badge status-${anime.watchStatus.toLowerCase()}">${anime.watchStatus}</span>
+                        </td>
+                        <td class="action-buttons">
+                            <button class="edit-btn" title="Edit Entry" onclick="editAnime(${anime.entryId})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                            </button>
+                            <button class="delete-btn" title="Delete Entry" onclick="deleteAnime(${anime.entryId})">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                            </button>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
                      </table>
                  </div>
                  <div class="table-pagination">
@@ -344,21 +264,8 @@
                  </div>
         </div>
 
-    </div> <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">FAQ</a>
-                <a href="#">API</a>
-            </div>
-            <div class="footer-copyright">
-                &copy; 2025 aniverse. All Rights Reserved. Built with ❤️ for Anime Fans.
-            </div>
-        </div>
-    </footer>
+    </div>
+     <jsp:include page="/WEB-INF/components/footer.jsp" />
 
     <script>
         // Get the table body for the main anime list

@@ -2,6 +2,8 @@ package com.aniverse.service;
 
 import com.aniverse.config.Dbconfig;
 import com.aniverse.model.User;
+import com.aniverse.model.UserAnimeEntry;
+
 import java.sql.*;
 import java.util.ArrayList; // Assuming you have this User model
 import java.util.List; // Assuming you have this DB config
@@ -71,7 +73,7 @@ public class Service {
     public int getReviewsTodayCount() { return getCount("SELECT COUNT(*) FROM reviews WHERE DATE(review_date) = CURDATE()"); } // Example query
     public int getTotalWatchlistCount() { return getCount("SELECT COUNT(*) FROM user_watchlists"); } // Example query
     public int getAnimeAddedThisMonthCount() { return getCount("SELECT COUNT(*) FROM anime WHERE YEAR(added_date) = YEAR(CURDATE()) AND MONTH(added_date) = MONTH(CURDATE())"); } // Example query
-    public String getTopGenre() { return getStringValue("SELECT g.name FROM anime_genre ag JOIN genre g ON ag.genre_id = g.genre_id GROUP BY g.name ORDER BY COUNT(ag.anime_id) DESC LIMIT 1;"); }
+    public String getTopGenre() { return getStringValue("SELECT g.name FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id GROUP BY g.name ORDER BY COUNT(ag.anime_id) DESC LIMIT 1;"); }
     public int getTotalCommentCount() { return getCount("SELECT COUNT(*) FROM comments"); } // Example query
     public int getCommentsTodayCount() { return getCount("SELECT COUNT(*) FROM comments WHERE DATE(comment_date) = CURDATE()"); } // Example query
     public String getHighestRatedAnime() { return getStringValue("select title from anime where score = (select max(score) from anime);"); }
@@ -79,6 +81,37 @@ public class Service {
     public int getReportedContentCount() { return getCount("SELECT COUNT(*) FROM reports WHERE status = 'open'"); } // Example query
     public String getMostDiscussedAnime() { return getStringValue("SELECT a.title FROM anime a JOIN comments c ON a.anime_id = c.anime_id WHERE c.comment_date >= CURDATE() - INTERVAL 7 DAY GROUP BY a.title ORDER BY COUNT(c.comment_id) DESC LIMIT 1"); }
     public String getTopSeason() { return getStringValue("select season from anime group by season order by count(*) desc limit 1;"); }
+    public int getActionAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Action'"); }
+    public int getAdventureAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Adventure'"); }
+    public int getComedyAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Comedy'"); }
+    public int getDramaAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Drama'"); }
+    public int getFantasyAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Fantasy'"); }
+    public int getHistoricalAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Historical'"); }
+    public int getHorrorAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Horror'"); }
+    public int getMagicAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Magic'"); }
+    public int getMechaAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Mecha'"); }
+    public int getMusicAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Music'"); }
+    public int getMysteryAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Mystery'"); }
+    public int getRomanceAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Romance'"); }
+    public int getSchoolAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'School'"); }
+    public int getSciFiAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Sci-Fi'"); }
+    public int getShoujoAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Shoujo'"); }
+    public int getShounenAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Shounen'"); }
+    public int getSliceOfLifeAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Slice of Life'"); }
+    public int getSportsAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Sports'"); }
+    public int getSupernaturalAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Supernatural'"); }
+    public int getThrillerAnimes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE g.name = 'Thriller'"); }
+    public int getRating0to1Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 0 AND score < 1"); }
+    public int getRating1to2Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 1 AND score < 2"); }
+    public int getRating2to3Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 2 AND score < 3"); }
+    public int getRating3to4Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 3 AND score < 4"); }
+    public int getRating4to5Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 4 AND score < 5"); }
+    public int getRating5to6Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 5 AND score < 6"); }
+    public int getRating6to7Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 6 AND score < 7"); }
+    public int getRating7to8Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 7 AND score < 8"); }
+    public int getRating8to9Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 8 AND score < 9"); }
+    public int getRating9to10Animes() { return getCount("SELECT COUNT(*) AS anime_count FROM anime WHERE score >= 9 AND score <= 10"); }
+
     public int getServerLoad() { return 43; } // Placeholder
 
 
@@ -451,6 +484,96 @@ public class Service {
 	return isConnectionError;
        // ... (Existing code, but ensure password isn't updated here unless hashed) ...
       
+   }
+   
+   // --- NEW METHOD to get user's anime list with details ---
+   public List<UserAnimeEntry> getUserAnimeList(int userId) {
+       if (isConnectionError) {
+           System.err.println("getUserAnimeList: Connection Error!");
+           return new ArrayList<>();
+       }
+       List<UserAnimeEntry> userAnimeEntries = new ArrayList<>();
+       // Query to join user_anime_list with anime table
+       // Also joins with studios and age_ratings for more complete data
+       String query = "SELECT ual.entry_id, ual.user_id, ual.anime_id, ual.watch_status, ual.user_score, ual.progress, ual.notes, ual.last_updated, " +
+                      "a.title, a.synopsis, a.type, a.episodes, a.episodes_aired, a.status, a.start_date, a.end_date, a.season, a.score AS overall_score, a.duration, a.source, a.mal_id, " +
+                      "s.studio_name, ar.rating_name " +
+                      "FROM user_anime_list ual " +
+                      "JOIN anime a ON ual.anime_id = a.anime_id " +
+                      "LEFT JOIN studios s ON a.studio_id = s.studio_id " + // LEFT JOIN in case studio is null
+                      "LEFT JOIN age_ratings ar ON a.rating_id = ar.rating_id " + // LEFT JOIN in case age_rating is null
+                      "WHERE ual.user_id = ?";
+
+       try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+           stmt.setInt(1, userId);
+           try (ResultSet rs = stmt.executeQuery()) {
+               while (rs.next()) {
+                   // Handling potential null for Integer progress
+                   Integer progress = rs.getObject("progress") != null ? rs.getInt("progress") : null;
+                   Integer episodes = rs.getObject("episodes") != null ? rs.getInt("episodes") : null;
+                   Integer episodesAired = rs.getObject("episodes_aired") != null ? rs.getInt("episodes_aired") : null;
+                   Integer malId = rs.getObject("mal_id") != null ? rs.getInt("mal_id") : null;
+
+
+                   UserAnimeEntry entry = new UserAnimeEntry(
+                       rs.getInt("entry_id"),
+                       rs.getInt("user_id"),
+                       rs.getInt("anime_id"),
+                       rs.getString("watch_status"),
+                       rs.getBigDecimal("user_score"),
+                       progress,
+                       rs.getString("notes"),
+                       rs.getTimestamp("last_updated"),
+                       rs.getString("title"),
+                       rs.getString("synopsis"),
+                       rs.getString("type"),
+                       episodes,
+                       episodesAired,
+                       rs.getString("status"),
+                       rs.getDate("start_date"),
+                       rs.getDate("end_date"),
+                       rs.getString("season"),
+                       rs.getBigDecimal("overall_score"),
+                       rs.getString("duration"),
+                       rs.getString("source"),
+                       malId
+                   );
+                   entry.setStudioName(rs.getString("studio_name")); // From studios table
+                   entry.setAgeRatingName(rs.getString("rating_name")); // From age_ratings table
+
+                   // Fetch genres for this anime separately (or you could use GROUP_CONCAT in SQL if preferred and parse it)
+                   // For simplicity here, we'll fetch it in a sub-query manner, which is not the most performant for large lists.
+                   // A better approach for performance with many entries would be to fetch all genres for all animes in the list in one go after this loop.
+                   entry.setGenres(getAnimeGenres(rs.getInt("anime_id")));
+
+                   userAnimeEntries.add(entry);
+               }
+           }
+       } catch (SQLException e) {
+           System.err.println("Error fetching user anime list for user_id '" + userId + "': " + e.getMessage());
+           e.printStackTrace();
+       }
+       return userAnimeEntries;
+   }
+
+   // Helper method to get genres for a specific anime_id
+   public List<String> getAnimeGenres(int animeId) {
+       if (isConnectionError) return new ArrayList<>();
+       List<String> genres = new ArrayList<>();
+       String query = "SELECT g.name FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE ag.anime_id = ?";
+       try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
+           stmt.setInt(1, animeId);
+           try (ResultSet rs = stmt.executeQuery()) {
+               while (rs.next()) {
+                   genres.add(rs.getString("name"));
+               }
+           }
+       } catch (SQLException e) {
+           System.err.println("Error fetching genres for anime_id '" + animeId + "': " + e.getMessage());
+           // Don't print stack trace here to avoid flooding logs if called many times,
+           // but consider a more robust logging strategy.
+       }
+       return genres;
    }
    
 

@@ -60,7 +60,13 @@ public class register extends HttpServlet {
 
         // Create and save the user (using the new constructor)
         User user = new User(username, email, password);
-        RegisterService.registerUser(user);
+        Boolean duplicate = RegisterService.registerUser(user);
+        if(duplicate == false)
+        {
+        	request.setAttribute("message", "Username already exists");
+        	request.getRequestDispatcher("WEB-INF/pages/register.jsp").forward(request, response);
+            return;
+        }
 
         // Redirect to login after successful registration
         response.sendRedirect(request.getContextPath() + "/login");

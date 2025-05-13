@@ -21,4 +21,8 @@
 	  <servlet-name>default</servlet-name>
 	  <url-pattern>/resources/animes/*</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+	  <servlet-name>default</servlet-name>
+	  <url-pattern>/resources/animecover/*</url-pattern>
+  </servlet-mapping>
 </web-app>

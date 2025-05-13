@@ -44,7 +44,7 @@ public class userSetting extends HttpServlet {
         if (currentUser == null) {
             System.err.println("GET Error: User '" + currentUsernameFromSession + "' found in session but not in DB.");
             session.invalidate();
-            response.sendRedirect(request.getContextPath() + "/login.jsp?error=User not found");
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
