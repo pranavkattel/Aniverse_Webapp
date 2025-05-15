@@ -408,6 +408,173 @@
             color: #a0a0a0;
             font-size: 14px;
         }
+        .modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+    padding-top: 50px; /* Reduced padding */
+    backdrop-filter: blur(5px); /* Frosted glass effect for overlay */
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: linear-gradient(145deg, #2c3e50, #1a2937); /* Dark gradient */
+    margin: 2% auto; /* Further reduced top margin */
+    padding: 25px 30px;
+    border: 1px solid #4a5568; /* Subtle border */
+    width: 90%; 
+    max-width: 550px; 
+    border-radius: 12px; /* More rounded corners */
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* Enhanced shadow */
+    color: #e0e0e0; /* Light text color for dark background */
+}
+
+.close-button {
+    color: #a0aec0; /* Lighter close button */
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #f0f0f0; /* Brighter on hover */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    color: #82aaff; /* Anime-ish accent color for title */
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.modal-form-group {
+    margin-bottom: 20px;
+}
+
+.modal-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #a0aec0; /* Slightly muted label color */
+}
+
+.modal-form-group input[type="number"],
+.modal-form-group select,
+.modal-form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #4a5568; /* Border matching modal content */
+    border-radius: 6px;
+    box-sizing: border-box; 
+    background-color: #1a2937; /* Dark input background */
+    color: #e0e0e0; /* Light input text */
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-form-group input[type="number"]:focus,
+.modal-form-group select:focus,
+.modal-form-group textarea:focus {
+    border-color: #82aaff; /* Accent color on focus */
+    box-shadow: 0 0 0 3px rgba(130, 170, 255, 0.3); /* Focus ring */
+    outline: none;
+}
+
+.modal-form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.modal-form-group small { /* For progress helper */
+    display: block;
+    margin-top: 5px;
+    color: #718096; /* Muted helper text */
+    font-size: 0.85em;
+}
+
+
+.modal-form-actions {
+    text-align: right;
+    margin-top: 30px;
+}
+
+/* Anime-style buttons */
+.modal-form-actions .action-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-left: 10px;
+}
+
+.modal-form-actions .action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.modal-form-actions .action-btn.add-btn { /* Save/Submit button */
+    background: linear-gradient(135deg, #5e72e4, #82aaff); /* Primary action gradient */
+    color: white;
+}
+.modal-form-actions .action-btn.add-btn:hover {
+    background: linear-gradient(135deg, #4e62d4, #729aff);
+}
+
+.modal-form-actions .action-btn { /* Cancel button (default/secondary) */
+    background-color: #4a5568; /* Darker, less prominent */
+    color: #e0e0e0;
+}
+.modal-form-actions .action-btn:hover {
+     background-color: #5a6578;
+}
+
+/* Existing .anime-card-actions button styling if you want them to differ */
+.anime-card-actions .action-btn {
+    /* Your existing styles for card buttons */
+    /* Example: */
+    /* background-color: #f0ad4e; */
+    /* color: #fff; */
+    /* padding: 8px 12px; */
+}
+.anime-card-actions .add-btn { /* "Add/Edit List" button on the card */
+    /* background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em; */
+}
+.anime-card-actions .add-btn:hover {
+    /* background: linear-gradient(45deg, #5e0fb0 0%, #1e65e0 100%); */
+}
+
+/* Style for select dropdown arrow (browser dependent, basic example) */
+.watch-status-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23a0aec0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: .8em;
+}
 
          /* Responsive Adjustments */
          @media (max-width: 992px) {
@@ -538,6 +705,8 @@
                     <%-- Use param.searchTerm to retain value after submit --%>
                     <input type="text" id="search-term" name="searchTerm" placeholder="e.g., Attack on Titan" value="${param.searchTerm}">
                 </div>
+                <%-- Include message display component at the top of your page --%>
+
                 <div class="filter-group">
                     <label for="genre-filter">Genre</label>
                     <select id="genre-filter" name="genre">
@@ -603,89 +772,109 @@
                 </div>
             </section>
         </form> <%-- End of filters form --%>
+<section class="anime-grid" id="anime-grid-results">
+    <c:choose>
+        <c:when test="${not empty animes}">
+            <c:forEach var="anime" items="${animes}">
+                <div class="anime-card">
+                    <img src="${pageContext.request.contextPath}/resources/animecover/${anime.title}.jpg"
+                         alt="Poster for ${anime.title}"
+                         class="anime-card-poster"
+                         onerror="this.onerror=null; this.src='https://placehold.co/250x350/cccccc/ffffff?text=Load+Error';">
 
-        <section class="anime-grid" id="anime-grid-results">
-
-            <%-- Check if the animeList exists and is not empty --%>
-            <c:choose>
-                <c:when test="${not empty animes}">
-                    <%-- Loop through each anime object in the list --%>
-                    <c:forEach var="anime" items="${animes}">
-                        <div class="anime-card">
-                            <%-- Construct image URL (adjust path as needed) --%>
-                            <%-- Option 1: Using MAL ID if available and you have images named that way --%>
-                            <c:set var="imageUrl">
-                                <c:choose>
-                                    <c:when test="${not empty anime.malId}">
-                                        <c:url value='/images/anime_posters/${anime.malId}.jpg'/> <%-- Example path --%>
-                                    </c:when>
-                                    <c:otherwise>
-                                        https://placehold.co/250x350/323865/ffffff?text=No+Image
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:set>
-
-                            <img src="${pageContext.request.contextPath}/resources/animecover/${anime.title}.jpg"
-                                 alt="Poster for ${anime.title}"
-                                 class="anime-card-poster"
-                                 onerror="this.onerror=null; this.src='https://placehold.co/250x350/cccccc/ffffff?text=Load+Error';"> <%-- Fallback image --%>
-
-                            <div class="anime-card-content">
-                                <h3 class="anime-card-title" title="${anime.title}">
-                                    <c:out value="${anime.title}"/>
-                                </h3>
-                                <div class="anime-card-info">
-                                    <%-- Display Score - Use fmt:formatNumber for consistency --%>
-                                    <c:choose>
-                                        <c:when test="${not empty anime.score and anime.score > 0}">
-                                            <span class="score">⭐ <fmt:formatNumber value="${anime.score}" pattern="#.0#"/></span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="score no-score">N/A</span>
-                                        </c:otherwise>
-                                    </c:choose>
-
-                                    <%-- Display Type (TV, Movie, etc.) --%>
-                                    <c:if test="${not empty anime.type}">
-                                        <span class="type"><c:out value="${anime.type}"/></span>
-                                    </c:if>
-
-                                    <%-- Display Episodes --%>
-                                    <c:choose>
-                                        <c:when test="${not empty anime.episodes and anime.episodes > 0}">
-                                            <span><c:out value="${anime.episodes}"/> Eps</span>
-                                        </c:when>
-                                        <c:when test="${not empty anime.type and anime.type == 'Movie'}">
-                                            <%-- Don't show eps for movies unless specifically needed --%>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span>? Eps</span> <%-- Placeholder if null/0 --%>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>
-                                <div class="anime-card-actions">
-                                    <%-- Link to a details servlet/page, passing animeId --%>
-                                    <a href="<c:url value='/anime-details?id=${anime.animeId}'/>" class="action-btn details-btn">View Details</a>
-                                    <%-- Form/Link to add to user's list (requires user session handling) --%>
-                                    <%-- Example: Could be a form submitting to an 'add-to-list' servlet --%>
-                                    <form action="<c:url value='/user/add-list'/>" method="post" style="display: contents;">
-                                        <input type="hidden" name="animeId" value="${anime.animeId}">
-                                        <button type="submit" class="action-btn add-btn">Add to List</button>
-                                    </form>
-                                </div>
-                            </div>
+                    <div class="anime-card-content">
+                        <h3 class="anime-card-title" title="${anime.title}">
+                            <c:out value="${anime.title}"/>
+                        </h3>
+                        <div class="anime-card-info">
+                            <c:choose>
+                                <c:when test="${not empty anime.score and anime.score > 0}">
+                                    <span class="score">⭐ <fmt:formatNumber value="${anime.score}" pattern="#.0#"/></span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="score no-score">N/A</span>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:if test="${not empty anime.type}">
+                                <span class="type"><c:out value="${anime.type}"/></span>
+                            </c:if>
+                            <c:choose>
+                                <c:when test="${not empty anime.episodes and anime.episodes > 0}">
+                                    <span><c:out value="${anime.episodes}"/> Eps</span>
+                                </c:when>
+                                <c:when test="${not empty anime.type and anime.type == 'Movie'}">
+                                </c:when>
+                                <c:otherwise>
+                                    <span>? Eps</span>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <%-- Message to display if no anime match the filters --%>
-                    <p style="text-align: center; color: #a0a0e0; grid-column: 1 / -1; padding: 40px;">
-                        No anime found matching your criteria. Try adjusting the filters!
-                    </p>
-                </c:otherwise>
-            </c:choose>
+                        <div class="anime-card-actions">
+                            <a href="<c:url value='/anime-details?id=${anime.animeId}'/>" class="action-btn details-btn">View Details</a>
+                            
+                            <%-- Button to trigger the modal --%>
+                            <c:if test="${not empty sessionScope.user}">
+                                <button type="button" class="action-btn add-btn" 
+                                        onclick="openAddToListModal('${anime.animeId}', '${anime.title}', '${anime.episodes}')">
+                                    Add/Edit List
+                                </button>
+                            </c:if>
+                            <c:if test="${empty sessionScope.user}">
+                                 <a href="<c:url value='/login'/>" class="action-btn add-btn">Login to Add</a>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <p class="no-results-message">
+                No anime found matching your criteria. Try adjusting the filters!
+            </p>
+        </c:otherwise>
+    </c:choose>
+</section>
+<div id="addToListModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeAddToListModal()">&times;</span>
+        <h3 id="modalTitle">Add/Edit Anime</h3>
+        <form id="modalForm" action="<c:url value='/user/add-list'/>" method="post">
+            <input type="hidden" name="animeId" id="modalAnimeId">
+            
+            <div class="modal-form-group">
+                <label for="modalWatchStatus">Status:</label>
+                <select name="watchStatus" id="modalWatchStatus" class="watch-status-select">
+                    <option value="Plan to Watch">Plan to Watch</option>
+                    <option value="Watching">Watching</option>
+                    <option value="Completed">Completed</option>
+                    <option value="On Hold">On Hold</option>
+                    <option value="Dropped">Dropped</option>
+                </select>
+            </div>
 
-        </section>
+            <div class="modal-form-group">
+                <label for="modalUserScore">Your Score (0-10):</label>
+                <input type="number" name="userScore" id="modalUserScore" step="0.1" min="0" max="10" placeholder="e.g., 7.5">
+            </div>
+
+            <div class="modal-form-group">
+                <label for="modalProgress">Progress (Episodes Watched):</label>
+                <input type="number" name="progress" id="modalProgress" min="0" placeholder="e.g., 5">
+                <small id="modalProgressHelper"></small>
+            </div>
+            
+            <div class="modal-form-group">
+                <label for="modalNotes">Notes:</label>
+                <textarea name="notes" id="modalNotes" rows="3" placeholder="Any personal notes..."></textarea>
+            </div>
+            
+            <div class="modal-form-actions">
+                <button type="button" class="action-btn" onclick="closeAddToListModal()">Cancel</button>
+                <button type="submit" class="action-btn add-btn" id="modalSubmitButton">Save to List</button>
+            </div>
+        </form>
+    </div>
+</div>
 
         <%-- Assumes 'currentPage', 'totalPages', and filter parameters are available --%>
         <c:if test="${totalPages > 1}">
@@ -778,6 +967,86 @@
                 alert("Profile button clicked! (Profile modal JS needs to be present)");
             });
         }
+        var modal = document.getElementById('addToListModal');
+        var modalForm = document.getElementById('modalForm');
+        var modalAnimeIdInput = document.getElementById('modalAnimeId');
+        var modalTitleElement = document.getElementById('modalTitle');
+        var modalWatchStatusInput = document.getElementById('modalWatchStatus');
+        var modalUserScoreInput = document.getElementById('modalUserScore');
+        var modalProgressInput = document.getElementById('modalProgress');
+        var modalProgressHelper = document.getElementById('modalProgressHelper');
+        var modalNotesInput = document.getElementById('modalNotes');
+        var modalSubmitButton = document.getElementById('modalSubmitButton'); // Get the submit button
+
+        async function openAddToListModal(animeId, animeTitle, totalEpisodes) {
+            modalAnimeIdInput.value = animeId;
+            modalTitleElement.textContent = 'Manage: ' + animeTitle; // Changed title slightly
+            
+            // Reset form to default values first
+            modalForm.reset(); 
+            modalSubmitButton.textContent = 'Save to List'; // Default button text
+            modalUserScoreInput.value = ''; // Explicitly clear potentially problematic fields
+            modalProgressInput.value = '';
+            modalNotesInput.value = '';
+
+
+            if (totalEpisodes && totalEpisodes !== '0' && totalEpisodes !== '?' && !isNaN(parseInt(totalEpisodes))) {
+                modalProgressInput.max = totalEpisodes;
+                modalProgressHelper.textContent = 'Total episodes: ' + totalEpisodes;
+            } else {
+                modalProgressInput.removeAttribute('max');
+                modalProgressHelper.textContent = totalEpisodes === '?' ? 'Total episodes: Unknown' : '';
+            }
+
+            // Fetch existing data
+            try {
+                // Note: Ensure your context path is handled correctly if this JSP is not at the root.
+                // Using a root-relative path for the API call.
+                const response = await fetch(`${pageContext.request.contextPath}/user/api/entry-details?animeId=${animeId}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && Object.keys(data).length > 0 && !data.error) { // Check if data is not empty and not an error object
+                        modalWatchStatusInput.value = data.watchStatus || 'Plan to Watch';
+                        modalUserScoreInput.value = data.userScore !== null ? data.userScore : '';
+                        modalProgressInput.value = data.progress !== null ? data.progress : '';
+                        modalNotesInput.value = data.notes || '';
+                        modalSubmitButton.textContent = 'Update List'; // Change button text if editing
+                    } else if (data.error) {
+                         console.warn('Error fetching entry details:', data.error);
+                         // Keep form blank, default button text
+                    }
+                    // If response is OK but data is empty (e.g. {}), it means no entry exists, so form remains blank.
+                } else {
+                    console.error('Failed to fetch user anime data, status:', response.status);
+                    // Optionally show a user-facing error message here
+                    // For now, just let the form be blank.
+                }
+            } catch (error) {
+                console.error('Error fetching user anime data:', error);
+                // Optionally show a user-facing error message here
+            }
+
+            modal.style.display = "block";
+        }
+
+        function closeAddToListModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeAddToListModal();
+            }
+        }
+
+        // Optional: If you want to clear the form explicitly when the modal is closed
+        // (though reset on open is generally good enough)
+        // modal.addEventListener('transitionend', () => {
+        //    if (modal.style.display === 'none') {
+        //        modalForm.reset();
+        //    }
+        // });
 
     </script>
 

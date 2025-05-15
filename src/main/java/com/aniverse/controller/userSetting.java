@@ -48,7 +48,7 @@ public class userSetting extends HttpServlet {
             return;
         }
 
-        request.setAttribute("userFromDb", currentUser);
+        request.setAttribute("userFromDb", currentUser);  
         request.getRequestDispatcher("/WEB-INF/pages/userSetting.jsp").forward(request, response);
     }
 

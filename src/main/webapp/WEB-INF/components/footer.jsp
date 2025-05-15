@@ -18,8 +18,7 @@
             <h3>Navigation</h3>
             <ul class="footer-links">
                 <li><a href="/Aniverse/home">Home</a></li>
-                <li><a href="/Aniverse/anime">Anime Database</a></li>
-                <li><a href="/Aniverse/manga">Manga Database</a></li>
+                <li><a href="/Aniverse/animelist">Anime Database</a></li>
                 <li><a href="/Aniverse/seasonal">Seasonal Chart</a></li>
                 <li><a href="/Aniverse/top">Top Anime</a></li>
                 <li><a href="/Aniverse/reviews">Reviews</a></li>

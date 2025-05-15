@@ -38,11 +38,11 @@ public class admin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false); // Do not create a new session if one does not exist
-		if (session == null || session.getAttribute("user") == null || !"admin".equals(session.getAttribute("role"))) {
-	        // User is not logged in or does not have the role "user", redirect to login page
-	        response.sendRedirect(request.getContextPath() + "/login");
-	        return; // Stop further processing
-	    }
+//		if (session == null || session.getAttribute("user") == null || !"admin".equals(session.getAttribute("role"))) {
+//	        // User is not logged in or does not have the role "user", redirect to login page
+//	        response.sendRedirect(request.getContextPath() + "/login");
+//	        return; // Stop further processing
+//	    }
 //		request.getRequestDispatcher("WEB-INF/pages/admin_dashboard.jsp").forward(request, response);
         // Fetch all the data needed for the dashboard using the service
         int totalUsers = dataService.getTotalUserCount();
