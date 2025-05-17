@@ -1,25 +1,41 @@
 package com.aniverse.controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.aniverse.model.Anime;
 import com.aniverse.model.User;
+import com.aniverse.service.AnimeService;
 import com.aniverse.service.Service;
 
 /**
  * Servlet implementation class admin
  */
 @WebServlet("/admin")
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024, // 1 MB
+    maxFileSize = 1024 * 1024 * 10,  // 10 MB
+    maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 public class admin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Service service;
+	private AnimeService animeService;
 	private Service dataService;
        
     /**
@@ -29,6 +45,7 @@ public class admin extends HttpServlet {
         super();
         this.service = new Service(); 
         dataService = new Service();
+        animeService = new AnimeService();
         // TODO Auto-generated constructor stub
     }
 
@@ -170,13 +187,22 @@ public class admin extends HttpServlet {
 		String action = request.getParameter("action");
 		List<User> customers = service.getAllCustomers();
         request.setAttribute("customers", customers); // Set attribute for the JSP
+        try {
+			List <Anime> allanime = animeService.getAllAnimes();
+			 request.setAttribute("animeList", allanime);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("works");
+		       
+		}
         // Forward to the JSP page (relative path from webapp root)
         request.getRequestDispatcher("WEB-INF/pages/admin_dashboard.jsp").forward(request, response);
 
         if ("edit".equals(action)) {
             // Show edit form
             showEditForm(request, response);
-        } else if ("add".equals(action)) { // **** NEW: Handle 'add' action ****
+        } else if ("add".equals(action) && session != null && "admin".equals(session.getAttribute("role"))) { // **** NEW: Handle 'add' action ****
             // Show the add customer form
             showAddForm(request, response);
         }
@@ -193,7 +219,7 @@ public class admin extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
 
-	
+		System.out.println(action);
 
         switch (action) {
             case "delete":
@@ -205,11 +231,129 @@ public class admin extends HttpServlet {
             case "insert": // **** NEW: Handle 'insert' action ****
                  insertCustomer(request, response);
                  break;
+            case "addAnime":
+                
+                break;
+            case "updateAnime":
+                updateAnime(request, response);
+                break;
+            case "deleteAnime":
+                deleteAnime(request, response);
+                break;
             default:
                 listCustomers(request, response);
                 break;
         }
 	}
+    
+    private String getFileExtension(Part part) {
+        String submittedFileName = part.getSubmittedFileName();
+        if (submittedFileName == null) return "";
+        int lastDot = submittedFileName.lastIndexOf('.');
+        if (lastDot == -1) return "";
+        return submittedFileName.substring(lastDot).toLowerCase();
+    }
+
+    private void updateAnime(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            String animeIdStr = request.getParameter("animeId");
+            if (animeIdStr == null || animeIdStr.trim().isEmpty()) {
+                 response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedInvalidId#anime-management");
+                return;
+            }
+            int animeId = Integer.parseInt(animeIdStr);
+
+            String title = request.getParameter("title");
+            String genresString = request.getParameter("genres");
+            String type = request.getParameter("type");
+            String episodesStr = request.getParameter("episodes");
+            String status = request.getParameter("status");
+            String imageUrl = request.getParameter("imageUrl");
+            String synopsis = request.getParameter("synopsis");
+
+            if (title == null || title.trim().isEmpty()) {
+                // Forward back to the edit form with an error and pre-filled data if possible
+                // For simplicity, redirecting now.
+                response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedMissingTitle&editAnimeId=" + animeId + "#add-anime");
+                return;
+            }
+            
+            // It's better to fetch the existing anime to update its fields,
+            // rather than creating a new object. This preserves fields not on the form.
+            Anime animeToUpdate = animeService.getAnimeById(animeId); // You'll need this method in AnimeService/DAO
+            
+            if (animeToUpdate == null) {
+               response.sendRedirect(request.getContextPath() + "/admin?errorAnime=AnimeNotFoundForUpdate#anime-management");
+               return;
+            }
+            
+            animeToUpdate.setTitle(title.trim());
+            animeToUpdate.setType(type);
+            animeToUpdate.setStatus(status);
+            animeToUpdate.setSynopsis(synopsis);
+
+            if (episodesStr != null && !episodesStr.trim().isEmpty()) {
+                try {
+                    animeToUpdate.setEpisodes(Integer.parseInt(episodesStr));
+                } catch (NumberFormatException e) {
+                    // Keep existing episodes value if new one is invalid, or set to 0
+                    // animeToUpdate.setEpisodes(animeToUpdate.getEpisodes()); // No change
+                    System.err.println("Invalid number format for episodes during update: " + episodesStr + ". Keeping existing value or defaulting.");
+                    // Or set to a default if that's preferred: animeToUpdate.setEpisodes(0);
+                }
+            } else {
+                 // If episodes field is submitted blank, decide behavior: clear it (set to 0/null) or keep existing.
+                 // Setting to 0 if blank:
+                 animeToUpdate.setEpisodes(0); 
+            }
+
+            if (genresString != null && !genresString.trim().isEmpty()) {
+                 List<String> genreList = Arrays.stream(genresString.split(","))
+                                             .map(String::trim)
+                                             .filter(genreName -> !genreName.isEmpty())
+                                             .collect(Collectors.toList());
+                animeToUpdate.setGenres(genreList);
+            } else {
+                // If genres string is empty, clear the existing genres
+                animeToUpdate.setGenres(new ArrayList<>()); 
+            }
+
+            Anime success = animeService.updateAnime(animeToUpdate); 
+            System.out.print(success);
+            
+
+           
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedInvalidIdFormat#anime-management");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedServerError#anime-management");
+        }
+    }
+
+    private void deleteAnime(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	System.out.print("rahuysaj");
+        try {
+            String animeIdStr = request.getParameter("animeId");
+             if (animeIdStr == null || animeIdStr.trim().isEmpty()) {
+                 response.sendRedirect(request.getContextPath() + "/admin?errorAnime=DeleteFailedInvalidId#anime-management");
+                return;
+            }
+            int animeId = Integer.parseInt(animeIdStr);
+            
+            boolean success = animeService.deleteAnime(animeId); 
+
+            System.out.print(success);
+            response.sendRedirect(request.getContextPath() + "/admin?success=AnimeDeleted");
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/admin?error=DeleteFailedInvalidIdFormat#anime-management");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 	private void listCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
     }

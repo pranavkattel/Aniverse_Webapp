@@ -3,7 +3,6 @@ package com.aniverse.service;
 import com.aniverse.config.Dbconfig;
 import com.aniverse.model.User;
 import com.aniverse.model.UserAnimeEntry;
-
 import java.sql.*;
 import java.util.ArrayList; // Assuming you have this User model
 import java.util.List; // Assuming you have this DB config

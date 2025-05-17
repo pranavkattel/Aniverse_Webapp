@@ -138,7 +138,7 @@ public class Anime {
         this.season = season;
     }
     
-    public int getStudioId() {
+    public Integer getStudioId() {
         return studioId;
     }
     
@@ -146,7 +146,7 @@ public class Anime {
         this.studioId = studioId;
     }
     
-    public int getRatingId() {
+    public Integer getRatingId() {
         return ratingId;
     }
     

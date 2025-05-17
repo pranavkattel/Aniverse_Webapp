@@ -142,6 +142,36 @@
             height: 600px;
             position: relative;
         }
+        .message {
+    padding: 16px 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.message-success {
+    background-color: #e6ffed;
+    border-left: 6px solid #2ecc71;
+    color: #2e7d32;
+}
+
+.message-error {
+    background-color: #ffeaea;
+    border-left: 6px solid #e74c3c;
+    color: #c0392b;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+        
         
         .chart-container h3 {
             color: #e5e7eb;
@@ -207,12 +237,7 @@
                              Anime Management
                          </a>
                      </li>
-                     <li>
-                         <a href="#" onclick="showSection('add-anime', this)" class="sidebar-link">
-                             <svg style="width: 1.25rem; height: 1.25rem; margin-right: 0.75rem;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                             Add New Anime
-                         </a>
-                     </li>
+                   
                  </ul>
             </nav>
         </aside>
@@ -228,7 +253,9 @@
                             <button class="header-profile-button">
                                 <span class="sr-only">Admin profile</span>
                                 <div class="header-profile-avatar" style="background-color: #4f46e5; color: white; width: 2.5rem; height: 2.5rem; border-radius: 9999px; display:flex; align-items:center; justify-content:center; font-weight:500;">A</div>
-                                <span class="header-profile-name" style="color: #e5e7eb; margin-left:0.5rem;">Admin</span>
+                                <span class="header-profile-name" style="color: #e5e7eb; margin-left:0.5rem;"><a href="/Aniverse/logout" class="dropdown-item logout">
+                    Logout
+                </a></span>
                             </button>
                         </div>
                     </div>
@@ -236,6 +263,29 @@
             </header>
 
             <main class="main-content">
+            	<c:if test="${not empty param.success}">
+				        <div class="message message-success">
+				            <c:choose>
+				                <c:when test="${param.success == 'UserDeleted'}">User deleted successfully.</c:when>
+				                <c:when test="${param.success == 'UserUpdated'}">User updated successfully.</c:when>
+				                <c:when test="${param.success == 'AnimeDeleted'}">Anime Deleted successfully.</c:when>
+				                <c:otherwise>Operation successful.</c:otherwise> <%-- Generic success --%>
+				            </c:choose>
+				        </div>
+				    </c:if>
+				    <c:if test="${not empty param.error}">
+				         <div class="message message-error">
+				             <c:choose>
+				                 <c:when test="${param.error == 'UserNotFound'}">User not found for editing.</c:when>
+				                 <c:when test="${param.error == 'InvalidUserId'}">Invalid user ID provided.</c:when>
+				                 <c:when test="${param.error == 'DeleteFailed'}">Failed to delete user.</c:when>
+				                 <c:when test="${param.error == 'UpdateFailed'}">Failed to update user.</c:when>
+				                 <c:when test="${param.error == 'UpdateFailedUserNotFound'}">Update failed: User not found.</c:when>
+				                 <c:when test="${param.error == 'ServerError'}">An internal server error occurred.</c:when>
+				                 <c:otherwise>An error occurred.</c:otherwise> <%-- Generic error --%>
+				             </c:choose>
+				         </div>
+				    </c:if>
             
             	<%-- ============== STATS GRID SECTION ============== --%>
             	<div id="dashboard-overview"  class="admin-section active">
@@ -339,28 +389,7 @@
                     
                     
                     
-                    <c:if test="${not empty param.success}">
-				        <div class="message message-success">
-				            <c:choose>
-				                <c:when test="${param.success == 'UserDeleted'}">User deleted successfully.</c:when>
-				                <c:when test="${param.success == 'UserUpdated'}">User updated successfully.</c:when>
-				                <c:otherwise>Operation successful.</c:otherwise> <%-- Generic success --%>
-				            </c:choose>
-				        </div>
-				    </c:if>
-				    <c:if test="${not empty param.error}">
-				         <div class="message message-error">
-				             <c:choose>
-				                 <c:when test="${param.error == 'UserNotFound'}">User not found for editing.</c:when>
-				                 <c:when test="${param.error == 'InvalidUserId'}">Invalid user ID provided.</c:when>
-				                 <c:when test="${param.error == 'DeleteFailed'}">Failed to delete user.</c:when>
-				                 <c:when test="${param.error == 'UpdateFailed'}">Failed to update user.</c:when>
-				                 <c:when test="${param.error == 'UpdateFailedUserNotFound'}">Update failed: User not found.</c:when>
-				                 <c:when test="${param.error == 'ServerError'}">An internal server error occurred.</c:when>
-				                 <c:otherwise>An error occurred.</c:otherwise> <%-- Generic error --%>
-				             </c:choose>
-				         </div>
-				    </c:if>
+                    
 
                     <div class="section-content-container">
                         <div class="table-container">
@@ -409,7 +438,7 @@
 					                                </a>
 					
 					                                <%-- Delete Form: Submits via POST to the servlet to perform deletion --%>
-					                                <form action="${pageContext.request.contextPath}/customers" method="POST" onsubmit="return confirm('Are you sure you want to delete user: ${customer.username}?');">
+					                                <form action="${pageContext.request.contextPath}/admin" method="POST" onsubmit="return confirm('Are you sure you want to delete user: ${customer.username}?');">
 					                                    <%-- Hidden fields to send data --%>
 					                                    <input type="hidden" name="action" value="delete">
 					                                    <input type="hidden" name="userId" value="${customer.userId}">
@@ -458,13 +487,15 @@
                 </section>
 
                 <section id="anime-management" class="admin-section">
-                     <div class="section-header">
+                    <div class="section-header">
                         <h2 class="section-title">Anime Management</h2>
-                        <button onclick="showSection('add-anime', this)" class="button button-primary">
+                        <button onclick="window.location.href='<%= request.getContextPath() %>/admin/addAnime'" class="button button-primary">
                              <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                             Add New Anime
                         </button>
                     </div>
+                    
+                    
                     <div class="section-content-container">
                         <div class="table-container">
                             <table class="table">
@@ -472,128 +503,61 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Title</th>
-                                        <th>Genre</th>
+                                        <th>Type</th>
                                         <th>Episodes</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-gray-400">ANI001</td>
-                                        <td class="text-white">Attack on Titan: Final Season</td>
-                                        <td class="text-gray-300">Action, Drama, Fantasy</td>
-                                        <td class="text-gray-400">28</td>
-                                        <td>
-                                            <span class="status-badge status-badge-blue">Airing</span>
-                                        </td>
-                                        <td class="action-button-group">
-                                            <button onclick="alert('Edit anime: ANI001')" class="button-link-indigo" title="Edit Anime">
-                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                            </button>
-                                            <button onclick="confirm('Are you sure you want to delete anime: ANI001?')" class="button-link-red" title="Delete Anime">
-                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-gray-400">ANI002</td>
-                                        <td class="text-white">Frieren: Beyond Journey's End</td>
-                                        <td class="text-gray-300">Adventure, Drama, Fantasy</td>
-                                        <td class="text-gray-400">28</td>
-                                        <td>
-                                            <span class="status-badge status-badge-green">Finished</span>
-                                        </td>
-                                        <td class="action-button-group">
-                                            <button onclick="alert('Edit anime: ANI002')" class="button-link-indigo" title="Edit Anime">
-                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                            </button>
-                                            <button onclick="confirm('Are you sure you want to delete anime: ANI002?')" class="button-link-red" title="Delete Anime">
-                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
+                                    <c:choose>
+                                        <c:when test="${empty animeList}">
+                                            <tr>
+                                                <td colspan="6" class="text-center">No anime found</td>
+                                            </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:forEach var="anime" items="${animeList}">
+                                                <tr>
+                                                    <td>${anime.animeId}</td>
+                                                    <td>${anime.title}</td>
+                                                    <td>${anime.type}</td>
+                                                    <td>${anime.episodes}</td>
+                                                    <td>
+                                                        <span class="status-badge status-badge-${anime.status == 'Airing' ? 'blue' : 'green'}">
+                                                            ${anime.status}
+                                                        </span>
+                                                    </td>
+                                                    <td class="action-button-group">
+                                                        <a href="${pageContext.request.contextPath}/admin?action=updateAnime&animeId=${anime.animeId}" 
+                                                           class="button-link-indigo">
+                                                            <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <form action="${pageContext.request.contextPath}/admin?action=deleteAnime&animeId=${anime.animeId}" method="POST" 
+                                                              style="display: inline;"
+                                                              onsubmit="return confirm('Are you sure you want to delete this anime?');">
+                                                            <!-- <input type="hidden" name="action" value="delete"> -->
+                                                            <input type="hidden" name="animeId" value="${anime.animeId}">
+                                                            <button type="submit" class="button-link-red">
+                                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tbody>
                             </table>
-                        </div>
-                         <div class="pagination-container">
-                             <div class="sm-hidden"> <a href="#" class="button button-secondary"> Previous </a>
-                                <a href="#" class="button button-secondary" style="margin-left: 0.75rem;"> Next </a>
-                            </div>
-                            <div class="sm-flex"> <div><p class="pagination-info">Showing <span class="font-medium">1</span> to <span class="font-medium">2</span> of <span class="font-medium">567</span> results</p></div>
-                                <div><nav class="pagination-nav" aria-label="Pagination">
-                                     <a href="#">
-                                        <span class="sr-only">Previous</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                                    </a>
-                                    <a href="#" aria-current="page"> 1 </a>
-                                    <a href="#"> 2 </a>
-                                    <a href="#">
-                                        <span class="sr-only">Next</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
-                                    </a>
-                                </nav></div>
-                            </div>
                         </div>
                     </div>
                 </section>
 
-                <section id="add-anime" class="admin-section">
-                    <h2 class="section-title" style="margin-bottom: 1.5rem;">Add New Anime</h2>
-                     <div class="form-container">
-                         <form id="add-anime-form">
-                             <div class="form-grid">
-                                <div>
-                                    <label for="anime-title-add" class="form-label">Anime Title</label>
-                                    <input type="text" id="anime-title-add" name="anime-title" required class="form-input">
-                                </div>
-                                <div>
-                                    <label for="anime-genre-add" class="form-label">Genre <span class="form-label-note">(comma-separated)</span></label>
-                                    <input type="text" id="anime-genre-add" name="anime-genre" required class="form-input" placeholder="e.g., Action, Adventure">
-                                </div>
-                                 <div>
-                                    <label for="anime-type-add" class="form-label">Type</label>
-                                    <select id="anime-type-add" name="anime-type" class="form-select">
-                                        <option>TV</option>
-                                        <option>Movie</option>
-                                        <option>OVA</option>
-                                        <option>ONA</option>
-                                        <option>Special</option>
-                                        <option>Music</option>
-                                    </select>
-                                </div>
-                                 <div>
-                                    <label for="anime-episodes-add" class="form-label">Episodes</label>
-                                    <input type="number" id="anime-episodes-add" name="anime-episodes" min="0" class="form-input" placeholder="Leave blank if unknown">
-                                </div>
-                                <div>
-                                    <label for="anime-status-add" class="form-label">Status</label>
-                                    <select id="anime-status-add" name="anime-status" class="form-select">
-                                        <option>Finished Airing</option>
-                                        <option>Currently Airing</option>
-                                        <option>Not yet aired</option>
-                                    </select>
-                                </div>
-                                 <div>
-                                    <label for="image-url-add" class="form-label">Image URL</label>
-                                    <input type="url" id="image-url-add" name="image-url" class="form-input" placeholder="https://example.com/image.jpg">
-                                </div>
-                                 <div class="md-col-span-2">
-                                    <label for="anime-synopsis-add" class="form-label">Synopsis</label>
-                                    <textarea id="anime-synopsis-add" name="anime-synopsis" rows="5" class="form-textarea"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button type="button" onclick="showSection('anime-management', this)" class="button button-secondary">
-                                    Cancel
-                                </button>
-                                <button type="submit" class="button button-primary">
-                                    Save Anime
-                                </button>
-                            </div>
-                         </form>
-                     </div>
-                </section>
+            
 
             </main>
         </div>

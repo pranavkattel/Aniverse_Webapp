@@ -29,16 +29,82 @@ public class AnimeListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 		
-    		try {
-				List <Anime> allanime = animeService.getAllAnimes();
-				 request.setAttribute("animes", allanime);
-			} catch (ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("works");
-			    
-			    
-			}
+//    	String title = request.getParameter("searchTitle");
+//    	String genre = request.getParameter("genre");
+//    	
+//
+//    	try {
+//    	List<Anime> resultList;
+//    	List<String> genres = animeService.getAllGenres();
+//    	request.setAttribute("genresList", genres);
+//
+//        if ((title != null && !title.trim().isEmpty()) &&
+//            (genre != null && !genre.trim().isEmpty())) {
+//
+//            resultList = animeService.getAnimesByTitleAndGenre(title, genre);
+//
+//        } else if (title != null && !title.trim().isEmpty()) {
+//
+//            resultList = animeService.searchAnimeByTitle(title);
+//
+//        } else if (genre != null && !genre.trim().isEmpty()) {
+//
+//            resultList = animeService.getAnimesByGenre(genre);
+//
+//        } else {
+//            resultList = animeService.getAllAnimes(); // optional: show all if no filter
+//        }
+//        request.setAttribute("animes", resultList);
+//    	} catch (SQLException | ClassNotFoundException e) {
+//    	    e.printStackTrace();
+//    	    request.setAttribute("error", "Error retrieving anime.");
+//    	    request.getRequestDispatcher("error.jsp").forward(request, response);
+//    	}
+    	String title = request.getParameter("searchTitle");
+    	String genre = request.getParameter("genre");
+    	String status = request.getParameter("status");
+    	String yearParam = request.getParameter("year");
+    	int year = 0; // default value representing "any year"
+
+    	if (yearParam != null && !yearParam.trim().isEmpty()) {
+    	    try {
+    	        year = Integer.parseInt(yearParam);
+    	    } catch (NumberFormatException e) {
+    	        // Handle invalid year format
+    	    }
+    	}
+
+    	try {
+    	    List<Anime> resultList;
+    	    List<String> genres = animeService.getAllGenres();
+    	    request.setAttribute("genresList", genres);
+    	    
+    	    // Get list of statuses for dropdown
+    	    List<String> statuses = animeService.getAllStatuses();
+    	    request.setAttribute("statusList", statuses);
+
+    	    if ((title != null && !title.trim().isEmpty()) ||
+    	        (genre != null && !genre.trim().isEmpty()) ||
+    	        (status != null && !status.trim().isEmpty()) ||
+    	        year > 0) {
+    	        
+    	        // Use empty strings for null values
+    	        resultList = animeService.getAnimesByTitleAndGenre(
+    	            title != null ? title : "", 
+    	            genre != null ? genre : "", 
+    	            status != null ? status : "",
+    	            year);
+    	    } else {
+    	        resultList = animeService.getAllAnimes(); // show all if no filter
+    	    }
+    	    request.setAttribute("animes", resultList);
+    	} catch (SQLException | ClassNotFoundException e) {
+    	    e.printStackTrace();
+    	    request.setAttribute("error", "Error retrieving anime.");
+    	    request.getRequestDispatcher("error.jsp").forward(request, response);
+    	}
+    	
+    		
             request.getRequestDispatcher("/WEB-INF/pages/anime-list.jsp").forward(request, response);
          
     }
