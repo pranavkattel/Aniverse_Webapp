@@ -1,7 +1,7 @@
 package com.aniverse.dao;
 
 import com.aniverse.model.Studio;
-import com.aniverse.config.Dbconfig;
+import com.aniverse.config.DbConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class StudioDAO {
         
         String sql = "SELECT studio_id, studio_name FROM studios ORDER BY studio_name";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -37,7 +37,7 @@ public class StudioDAO {
         
         String sql = "SELECT studio_id, studio_name FROM studios WHERE studio_id = ?";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, studioId);

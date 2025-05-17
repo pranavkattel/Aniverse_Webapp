@@ -2,8 +2,13 @@ package com.aniverse.service;
 
 import com.aniverse.model.Anime;
 import com.aniverse.dao.AnimeDAO;
+import com.aniverse.config.DbConfig;
 import java.sql.SQLException;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  * Service class for handling anime business logic
@@ -32,7 +37,63 @@ public class AnimeService {
      * @return The Anime object if found, null otherwise
      */
     public Anime getAnimeById(int animeId) throws SQLException, ClassNotFoundException {
-        return animeDAO.getAnimeById(animeId);
+        Connection connection = DbConfig.getDbConnection();
+        String query = "SELECT a.*, s.studio_name, ar.rating_name " +
+                       "FROM anime a " +
+                       "LEFT JOIN studios s ON a.studio_id = s.studio_id " +
+                       "LEFT JOIN age_ratings ar ON a.rating_id = ar.rating_id " +
+                       "WHERE a.anime_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, animeId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Anime anime = new Anime();
+                    anime.setAnimeId(rs.getInt("anime_id"));
+                    anime.setTitle(rs.getString("title"));
+                    anime.setSynopsis(rs.getString("synopsis"));
+                    anime.setType(rs.getString("type"));
+                    anime.setEpisodes(rs.getInt("episodes"));
+                    anime.setEpisodesAired(rs.getInt("episodes_aired"));
+                    anime.setStatus(rs.getString("status"));
+
+                    java.sql.Date startDate = rs.getDate("start_date");
+                    java.sql.Date endDate = rs.getDate("end_date");
+                    anime.setStartDate(startDate);
+                    anime.setEndDate(endDate);
+
+                    anime.setSeason(rs.getString("season"));
+                    anime.setStudioName(rs.getString("studio_name"));
+                    anime.setRatingName(rs.getString("rating_name"));
+                    anime.setScore(rs.getBigDecimal("score"));
+                    anime.setDuration(rs.getString("duration"));
+                    anime.setSource(rs.getString("source"));
+                    anime.setMalId(rs.getInt("mal_id"));
+                    anime.setGenres(getAnimeGenres(animeId)); // assuming this returns List<String>
+                    return anime;
+                }
+            }
+        } finally {
+            connection.close();
+        }
+        return null;
+    }
+
+
+    private List<String> getAnimeGenres(int animeId) throws SQLException, ClassNotFoundException {
+        Connection connection = DbConfig.getDbConnection();
+        List<String> genres = new ArrayList<>();
+        String query = "SELECT g.name FROM anime_genres ag JOIN genre g ON ag.genre_id = g.genre_id WHERE ag.anime_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, animeId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    genres.add(rs.getString("name"));
+                }
+            }
+        } finally {
+            connection.close();
+        }
+        return genres;
     }
     
     	
@@ -45,6 +106,8 @@ public class AnimeService {
      * Add a new anime
      * @param newAnime The Anime object to add
      * @return The added Anime object, possibly with a generated ID
+     * @throws SQLException
+     * @throws ClassNotFoundException
      */
    
 

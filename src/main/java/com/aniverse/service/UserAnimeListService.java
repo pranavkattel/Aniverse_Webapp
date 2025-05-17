@@ -1,16 +1,15 @@
 package com.aniverse.service;
 
-import java.math.BigDecimal; // Import BigDecimal for score
+import com.aniverse.config.DbConfig; // Import BigDecimal for score
+import com.aniverse.model.UserAnimeEntry;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.ResultSet; // Import Types for setting NULL
 import java.sql.SQLException;
-import java.sql.Types; // Import Types for setting NULL
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.aniverse.config.Dbconfig;
-import com.aniverse.model.UserAnimeEntry;
 
 public class UserAnimeListService {
 
@@ -51,7 +50,7 @@ public class UserAnimeListService {
                                       BigDecimal userScore, Integer progress, String notes)
             throws ClassNotFoundException, SQLException {
 
-        dbConn = Dbconfig.getDbConnection();
+        dbConn = DbConfig.getDbConnection();
         boolean result = false;
 
         // Include new fields: user_score, progress, notes
@@ -106,7 +105,7 @@ public class UserAnimeListService {
     public boolean isAnimeInUserList(int userId, int animeId)
             throws ClassNotFoundException, SQLException {
 
-        dbConn = Dbconfig.getDbConnection();
+        dbConn = DbConfig.getDbConnection();
         boolean result = false;
 
         String sql = "SELECT entry_id FROM user_anime_list WHERE user_id = ? AND anime_id = ?";
@@ -145,7 +144,7 @@ public class UserAnimeListService {
                                           BigDecimal userScore, Integer progress, String notes)
             throws ClassNotFoundException, SQLException {
 
-        dbConn = Dbconfig.getDbConnection();
+        dbConn = DbConfig.getDbConnection();
         boolean result = false;
 
         // Dynamically build the SET part of the query if needed, or update all provided fields.
@@ -189,11 +188,67 @@ public class UserAnimeListService {
         return result;
     }
 
+    /**
+     * Update an anime entry in the user's list.
+     *
+     * @param entryId Entry ID
+     * @param watchStatus New watch status
+     * @param userScore New user score
+     * @param progress New progress
+     * @return true if successful, false otherwise
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public boolean updateUserAnimeEntry(int entryId, String watchStatus, BigDecimal userScore, Integer progress)
+            throws ClassNotFoundException, SQLException {
+        dbConn = DbConfig.getDbConnection();
+        String sql = "UPDATE user_anime_list SET watch_status = ?, user_score = ?, progress = ? WHERE entry_id = ?";
+        try (PreparedStatement preparedStatement = dbConn.prepareStatement(sql)) {
+            preparedStatement.setString(1, watchStatus);
+            if (userScore != null) {
+                preparedStatement.setBigDecimal(2, userScore);
+            } else {
+                preparedStatement.setNull(2, Types.DECIMAL);
+            }
+            if (progress != null) {
+                preparedStatement.setInt(3, progress);
+            } else {
+                preparedStatement.setNull(3, Types.INTEGER);
+            }
+            preparedStatement.setInt(4, entryId);
+            return preparedStatement.executeUpdate() > 0;
+        } finally {
+            if (dbConn != null) {
+                dbConn.close();
+            }
+        }
+    }
+
+    /**
+     * Delete an anime entry from the user's list.
+     *
+     * @param entryId Entry ID
+     * @return true if successful, false otherwise
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public boolean deleteUserAnimeEntry(int entryId) throws ClassNotFoundException, SQLException {
+        dbConn = DbConfig.getDbConnection();
+        String sql = "DELETE FROM user_anime_list WHERE entry_id = ?";
+        try (PreparedStatement preparedStatement = dbConn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, entryId);
+            return preparedStatement.executeUpdate() > 0;
+        } finally {
+            if (dbConn != null) {
+                dbConn.close();
+            }
+        }
+    }
 
     public List<UserAnimeEntry> getUserAnimeListWithDetails(int userId)
             throws ClassNotFoundException, SQLException {
 
-        dbConn = Dbconfig.getDbConnection();
+        dbConn = DbConfig.getDbConnection();
         List<UserAnimeEntry> userAnimeList = new ArrayList<>();
 
         String sql = "SELECT ual.*, " +
@@ -256,7 +311,7 @@ public class UserAnimeListService {
 
     private List<String> getAnimeGenres(int animeId) throws ClassNotFoundException, SQLException {
         List<String> genres = new ArrayList<>();
-        Connection genreConnection = Dbconfig.getDbConnection();
+        Connection genreConnection = DbConfig.getDbConnection();
 
         String sql = "SELECT g.name FROM anime_genres ag " +
                      "JOIN genre g ON ag.genre_id = g.genre_id " +

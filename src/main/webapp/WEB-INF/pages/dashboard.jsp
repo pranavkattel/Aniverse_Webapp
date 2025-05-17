@@ -9,7 +9,140 @@
     <title>aniverse Dashboard</title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/userDashboard.css">
     <style>
-        
+.update-form {
+  display: none;
+  position: absolute;
+  top: 3%;
+  right: 0%;
+  background: linear-gradient(135deg, #2b3054, #1e2238); /* darker bluish gradient */
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  width: 700px;
+  height: 90%;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Style inputs */
+.update-form input[type="text"],
+.update-form input[type="number"] {
+  width: calc(100% - 20px);
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.4);z
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.update-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Style buttons */
+.update-form button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  margin-top: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.update-form button:hover {
+  background-color: #357ab8;
+}
+
+.update-form .cancel-btn {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+.update-form .cancel-btn:hover {
+  background-color: #a71d2a;
+}
+
+.update-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.update-form .form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.update-form label {
+  flex: 0 0 80px;
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.update-form .form-grid {
+  height: 50px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.update-form .form-grid label {
+  font-weight: bold;
+  font-size: 14px;
+  color: white;
+}
+
+.update-form .form-grid input[type="text"],
+.update-form .form-grid input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.update-form .grid-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+.edit-btn {
+  background: transparent;
+  border: none;
+  color: inherit;       /* keep icon/text color from parent */
+  cursor: pointer;
+  padding: 0;           /* remove extra space if you want */
+  font-size: 1.2em;     /* adjust icon size if needed */
+  display: inline-flex; /* optional: for better control of icon alignment */
+  align-items: center;  /* center vertically */
+  gap: 4px;             /* space between icons/text */
+}
+  
+  .delete-btn{
+  background: transparent;
+  border: none;
+  color: inherit;       /* keep icon/text color from parent */
+  cursor: pointer;
+  padding: 0;           /* remove extra space if you want */
+  font-size: 1.2em;     /* adjust icon size if needed */
+  display: inline-flex; /* optional: for better control of icon alignment */
+  align-items: center;  /* center vertically */
+  gap: 4px;             /* space between icons/text */
+} 
     </style>
 </head>
 <body>
@@ -127,57 +260,102 @@
                                  <th>Progress</th>
                                  <th>Status</th>
                                  <th>Actions</th>
+                                 <th> </th>
                              </tr>
                          </thead>
                         	<tbody id="my-anime-list-body">
-                <c:forEach var="anime" items="${animeList}">
-                    <tr data-anime-id="${anime.animeId}">
-                        <td class="anime-poster-cell">
-                            <img src="${pageContext.request.contextPath}/resources/animecover/${anime.title}.jpg" 
-                                 onerror="this.src='${pageContext.request.contextPath}/resources/animes/default.jpg'" 
-                                 alt="${anime.title} Poster">
-                        </td>
-                        <td class="title-cell">
-                            <span class="main-title">${anime.title}</span>
-                            <span class="alt-title">${anime.type} - ${anime.season}</span>
-                        </td>
-                        <td class="score-cell">
-                            <c:choose>
-                                <c:when test="${anime.userScore != null}">${anime.userScore}</c:when>
-                                <c:otherwise>-</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            ${anime.progress} / 
-                            <c:choose>
-                                <c:when test="${anime.episodes != null}">${anime.episodes}</c:when>
-                                <c:otherwise>-</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <span class="status-badge status-${anime.watchStatus.toLowerCase()}">${anime.watchStatus}</span>
-                        </td>
-                        <td class="action-buttons">
-                            <button class="edit-btn" title="Edit Entry" onclick="editAnime(${anime.entryId})">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                            </button>
-                            <button class="delete-btn" title="Delete Entry" onclick="deleteAnime(${anime.entryId})">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                            </button>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
+    <c:forEach var="anime" items="${animeList}">
+        <tr style="height:150px">
+            <td class="anime-poster-cell">
+                <img src="${pageContext.request.contextPath}/resources/animecover/${anime.title}.jpg" 
+                     onerror="this.src='${pageContext.request.contextPath}/resources/animes/default.jpg'" 
+                     alt="${anime.title} Poster">
+            </td>
+            <td class="title-cell">
+                <span class="main-title">${anime.title}</span>
+                <span class="alt-title">${anime.type} - ${anime.season}</span>
+            </td>
+            <td class="score-cell">
+                <c:choose>
+                    <c:when test="${anime.userScore != null}">${anime.userScore}</c:when>
+                    <c:otherwise>-</c:otherwise>
+                </c:choose>
+            </td>
+            <td>
+                ${anime.progress} / 
+                <c:choose>
+                    <c:when test="${anime.episodes != null}">${anime.episodes}</c:when>
+                    <c:otherwise>-</c:otherwise>
+                </c:choose>
+            </td>
+            <td>
+                <span class="status-badge status-${anime.watchStatus.toLowerCase()}">${anime.watchStatus}</span>
+            </td>
+            <td style="position: relative;">
+            <form action="${pageContext.request.contextPath}/dashboard" method="post">
+							      <input type="hidden" name="action" value="deleteAnimeEntry">
+							      <input type="hidden" name="entryId" value="${anime.entryId}">
+							      <button type="submit" class="delete-btn">🗑️</button>
+							    </form>
+							    <br>
+			 <button class="edit-btn">✏️</button>
+					<div class="update-form" style="display: none;">
+					  <form action="${pageContext.request.contextPath}/dashboard" method="post">
+					    <input type="hidden" name="action" value="updateAnimeEntry">
+					    <input type="hidden" name="entryId" value="${anime.entryId}">
+					
+					    <div class="form-grid">
+					      <!-- Row 1: Labels -->
+					      <label>Status</label>
+					      <label>Score</label>
+					      <label>Progress</label>
+					      <div></div> <!-- empty cell for alignment -->
+					
+					      <!-- Row 2: Inputs -->
+					      <input type="text" name="watchStatus" value="${anime.watchStatus}" placeholder="Status">
+					      <input 
+							  type="number" 
+							  name="userScore" 
+							  value="${anime.userScore}" 
+							  placeholder="Score" 
+							  step="0.1" 
+							  min="0"
+							  max="9.99"
+							/>
+							
+							<input 
+							  type="number" 
+							  name="progress" 
+							  value="${anime.progress}" 
+							  placeholder="Progress" 
+							  min="0" 
+							  max="${anime.episodes != null ? anime.episodes : ''}" 
+							/>
+					      
+					      <!-- Buttons -->
+					      <div class="grid-buttons">
+					        <button type="submit">Update</button>
+					        <button type="button" class="cancel-btn">Cancel</button>
+					      </div>
+					    </div>
+					  </form>
+					</div>
+
+
+            <td>
+                
+                	         
+                
+             </td>
+           
+                <!-- Delete Form -->
+            
+        </tr>
+    </c:forEach>
+</tbody>
                      </table>
                  </div>
-                 <div class="table-pagination">
-                     <div>Showing 1-5 of 313 entries</div>
-                     <div class="pagination-buttons">
-                         <button disabled>&lt; Prev</button>
-                         <button>Next &gt;</button>
-                     </div>
-                 </div>
-            </div>
+                
 
             <div class="side-content">
                 <div class="recommendations">
@@ -267,7 +445,35 @@
     </div>
      <jsp:include page="/WEB-INF/components/footer.jsp" />
 
+    <!-- Modal for editing anime -->
+
+
     <script>
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('edit-btn')) {
+            const updateForm = event.target.nextElementSibling;
+            updateForm.style.display = 'block';
+        }
+        
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        const cancelBtns = document.querySelectorAll(".cancel-btn");
+
+        cancelBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            btn.closest(".update-form").style.display = "none";
+          });
+        });
+      });
+    document.addEventListener("DOMContentLoaded", function () {
+        const cancelBtns = document.querySelectorAll(".edit-btn");
+
+        cancelBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            btn.closest(".update-form").style.display = "block";
+          });
+        });
+      });
         // Get the table body for the main anime list
         const myAnimeListBody = document.getElementById('my-anime-list-body');
 
@@ -290,14 +496,14 @@
                     console.log(`Edit button clicked for anime ID: ${animeId} (${animeTitle})`);
                     // In a real app, you would open an edit modal or form here,
                     // pre-filled with data for this animeId.
-                    alert(`Simulating EDIT action for: ${animeTitle} (ID: ${animeId})\n\n(In a real app, this would open an edit form)`);
+                   
                 }
 
                 // Handle Delete Button Click
                 if (button.classList.contains('delete-btn')) {
                     console.log(`Delete button clicked for anime ID: ${animeId} (${animeTitle})`);
                     // Confirm deletion
-                    if (confirm(`Are you sure you want to remove "${animeTitle}" (ID: ${animeId}) from your list?`)) {
+                    if (confirm(`Are you sure you want to remove the anime from your list?`)) {
                         // Remove the row from the table visually
                         row.style.opacity = '0'; // Start fade out effect
                         row.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
@@ -308,7 +514,7 @@
                             // In a real app, you would also send a DELETE request to your Java backend API here
                             // using fetch() or similar, passing the animeId.
                             console.log(`Anime ID: ${animeId} removed from view.`);
-                            alert(`"${animeTitle}" (ID: ${animeId}) has been removed from the list.\n\n(In a real app, this action would be saved to the database)`);
+                            
                             // Optional: Update stats cards if needed
                         }, 400); // Wait for fade/slide out animation
                     }
@@ -317,6 +523,13 @@
         } else {
             console.error("Element with ID 'my-anime-list-body' not found.");
         }
+
+        let selectedAnimeId = null;
+
+
+
+
+   
     </script>
 
 </body>

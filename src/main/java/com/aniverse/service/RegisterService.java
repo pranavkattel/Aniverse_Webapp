@@ -1,11 +1,11 @@
 package com.aniverse.service;
 
+import com.aniverse.config.DbConfig;
+import com.aniverse.model.User;
+import com.aniverse.util.PasswordUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import com.aniverse.config.Dbconfig;
-import com.aniverse.model.User;
 
 public class RegisterService {
 	private Connection dbConn;
@@ -16,7 +16,7 @@ public class RegisterService {
      */
     public RegisterService() {
     	 try {
-             dbConn = Dbconfig.getDbConnection();
+             dbConn = DbConfig.getDbConnection();
          } catch (SQLException | ClassNotFoundException ex) {
              ex.printStackTrace();
             
@@ -40,7 +40,9 @@ public class RegisterService {
         try (PreparedStatement insertStmt = dbConn.prepareStatement(insertQuery)) {
             insertStmt.setString(1, user.getUsername());
             insertStmt.setString(2, user.getEmail());
-            insertStmt.setString(3, user.getPassword()); // Make sure this is hashed if needed
+            // Encrypt the password before storing it
+            String encryptedPassword = PasswordUtil.encrypt(user.getUsername(), user.getPassword());
+            insertStmt.setString(3, encryptedPassword);
             insertStmt.setString(4, "customer");
 
             return insertStmt.executeUpdate() > 0;

@@ -93,7 +93,7 @@
 </head>
 <body>
     <div class="form-container">
-        <h1>Edit Customer</h1>
+        <h1>View Customer Details</h1>
 
          <%-- Display Error Message if update failed and redirected back here --%>
          <c:if test="${not empty errorMessage}">
@@ -108,23 +108,23 @@
             
                 <%-- Hidden fields to identify action and user --%>
                 <input type="hidden" name="action" value="update">
-                <input type="hidden" name="userId" value="${customerToEdit.userId}">
+                <input type="hidden" name="userId" value="${customerToEdit.userId}" disabled>
 
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" value="${customerToEdit.username}" required>
+                    <input type="text" id="username" name="username" class="form-control" value="${customerToEdit.username}" disabled>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" value="${customerToEdit.email}" required>
+                    <input type="email" id="email" name="email" class="form-control" value="${customerToEdit.email}" disabled>
                 </div>
 
                 <%-- Add other editable fields here if needed --%>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="text" id="someOtherField" name="someOtherField" class="form-control" value="${customerToEdit.password}">
+                    <input type="text" id="someOtherField" name="someOtherField" class="form-control" value="${customerToEdit.password}" disabled>
                 </div>
                 
 
@@ -140,7 +140,7 @@
 
 
                 <div>
-                    <button type="submit" class="button-primary">Save Changes</button>
+                   
                     <%-- Link to go back to the customer list --%>
                     <a href="${pageContext.request.contextPath}/admin" class="button-secondary">Cancel</a>
                 </div>

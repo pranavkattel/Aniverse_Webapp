@@ -1,7 +1,7 @@
 package com.aniverse.dao;
 
 import com.aniverse.model.Genre;
-import com.aniverse.config.Dbconfig;
+import com.aniverse.config.DbConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class GenreDAO {
         
         String sql = "SELECT genre_id, name FROM genre ORDER BY name";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -37,7 +37,7 @@ public class GenreDAO {
         
         String sql = "SELECT genre_id, name FROM genre WHERE genre_id = ?";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, genreId);
@@ -64,7 +64,7 @@ public class GenreDAO {
                      "WHERE ag.anime_id = ? " +
                      "ORDER BY g.name";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, animeId);

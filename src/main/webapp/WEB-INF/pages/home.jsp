@@ -20,8 +20,13 @@
                 <div class="hero-content">
                     <h1>TRACK YOUR ANIME JOURNEY</h1>
                     <div class="search-container">
-                        <input type="text" class="search-input" placeholder="Search anime, manga, characters...">
-                        <button class="search-button">🔍</button>
+                         <form action="animelist" method="GET" class="search-container">
+						    <input style="width:600px" type="text" name="searchTitle" class="search-input" placeholder="Search anime...">
+						    <input type="hidden" name="genre" value="">
+						    <input type="hidden" name="status" value="">
+						    <input type="hidden" name="year" value="">
+						    <button type="submit" class="search-button">🔍</button>
+						</form>
                     </div>
                 </div>
             </div>
@@ -33,15 +38,15 @@
     <section class="stats-section">
         <div class="stats-container">
             <div class="stat-item">
-                <div class="stat-number">17,648</div>
+                <div class="stat-number" data-target="17648">0</div>
                 <div class="stat-label">Anime</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">284,732</div>
+                <div class="stat-number" data-target="28432">0</div>
                 <div class="stat-label">Users</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">5.2M</div>
+                <div class="stat-number" data-target="520000">0</div>
                 <div class="stat-label">Reviews</div>
             </div>
         </div>
@@ -51,15 +56,15 @@
     <section class="seasonal-anime">
         <div class="section-header">
             <h2>Spring 2025 Anime</h2>
-            <a href="#" class="view-all">VIEW ALL</a>
+            <a href="animelist" class="view-all">VIEW ALL</a>
         </div>
         <div class="anime-grid">
             <div class="anime-card">
                 <div class="anime-genre">Action</div>
-                <div class="anime-episodes">12 eps</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/dandadan.jpg" alt="Dandadan">
+                <div class="anime-episodes">112 eps</div>
+                <img src="${pageContext.request.contextPath}/resources/animes/Hunter x Hunter.jpg" alt="Dandadan">
                 <div class="anime-info">
-                    <div class="anime-title">Dandadan</div>
+                    <div class="anime-title">HunterXHunter</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 4.8
@@ -69,11 +74,11 @@
                 </div>
             </div>
             <div class="anime-card">
-                <div class="anime-genre">Sports</div>
+                <div class="anime-genre">Isekai</div>
                 <div class="anime-episodes">24 eps</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/bluelock.jpg" alt="Blue Lock">
+                <img src="${pageContext.request.contextPath}/resources/animes/nogamenolife.jpg" alt="Blue Lock">
                 <div class="anime-info">
-                    <div class="anime-title">Blue Lock</div>
+                    <div class="anime-title">No Game No Life</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 4.5
@@ -148,14 +153,14 @@
     <section class="top-rated">
         <div class="section-header">
             <h2>Top Rated Anime</h2>
-            <a href="#" class="view-all">VIEW ALL</a>
+            <a href="animelist" class="view-all">VIEW ALL</a>
         </div>
         <div class="top-anime-list">
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">1</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/dandadan.jpg" alt="Fullmetal Alchemist">
+                <img src="${pageContext.request.contextPath}/resources/animecover/Attack on Titan.jpg" alt="Attack on Titan">
                 <div class="anime-info">
-                    <div class="anime-title">DanDaDan</div>
+                    <div class="anime-title">Attack on Titan</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 9.8
@@ -165,9 +170,9 @@
             </div>
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">2</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/bluelock.jpg" alt="Attack on Titan">
+                <img src="${pageContext.request.contextPath}/resources/animecover/Demon Slayer.jpg" alt="Demon Slayer">
                 <div class="anime-info">
-                    <div class="anime-title">Blue Lock</div>
+                    <div class="anime-title">Demon Slayer</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 9.7
@@ -177,9 +182,9 @@
             </div>
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">3</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/angelbeats.webp" alt="Steins;Gate">
+                <img src="${pageContext.request.contextPath}/resources/animecover/Jujutsu Kaisen.jpg" alt="Jujutsu Kaisen">
                 <div class="anime-info">
-                    <div class="anime-title">Angel Beats</div>
+                    <div class="anime-title">Jujutsu Kaisen</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 9.6
@@ -189,9 +194,9 @@
             </div>
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">4</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/rezero.jpg" alt="Top Anime 4">
+                <img src="${pageContext.request.contextPath}/resources/animecover/One Piece.jpg" alt="One Piece">
                 <div class="anime-info">
-                    <div class="anime-title">Re:Zero</div>
+                    <div class="anime-title">One Piece</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 9.5
@@ -201,7 +206,7 @@
             </div>
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">5</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/steinsgate.jpg" alt="Top Anime 5">
+                <img src="${pageContext.request.contextPath}/resources/animecover/SteinsGate.jpg" alt="Steins;Gate">
                 <div class="anime-info">
                     <div class="anime-title">Steins;Gate</div>
                     <div class="anime-meta">
@@ -213,9 +218,9 @@
             </div>
             <div class="anime-card top-anime-item">
                 <div class="top-anime-rank">6</div>
-                <img src="${pageContext.request.contextPath}/resources/animes/onepiece.jpg" alt="Top Anime 6">
+                <img src="${pageContext.request.contextPath}/resources/animecover/Violet Evergarden.jpg" alt="Violet Evergarden">
                 <div class="anime-info">
-                    <div class="anime-title">One Piece</div>
+                    <div class="anime-title">Violet Evergarden</div>
                     <div class="anime-meta">
                         <div class="anime-rating">
                             <span class="star-icon">★</span> 9.3
@@ -230,41 +235,41 @@
     <section class="genres-section">
         <div class="section-header">
             <h2>Browse by Genre</h2>
-            <a href="#" class="view-all" style="color: white;">VIEW ALL</a>
+            <a href="animelist" class="view-all" style="color: white;">VIEW ALL</a>
         </div>
         <div class="genres-grid">
-            <div class="genre-card">
+            <a href="animelist?searchTitle=&genre=Action&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/action.jpg" alt="Action Genre">
-                <div class="genre-name">Action</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Action</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Romance&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/romance.jpg" alt="Romance Genre">
-                <div class="genre-name">Romance</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Romance</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Comedy&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/comdey.avif" alt="Comedy Genre">
-                <div class="genre-name">Comedy</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Comedy</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Drama&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/drama.jpg" alt="Drama Genre">
-                <div class="genre-name">Drama</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Drama</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Fantasy&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/fantasy.avif" alt="Fantasy Genre">
-                <div class="genre-name">Fantasy</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Fantasy</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Sci-Fi&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/sifi.jpg" alt="Sci-Fi Genre">
-                <div class="genre-name">Sci-Fi</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Sci-Fi</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Horror&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/horror.avif" alt="Horror Genre">
-                <div class="genre-name">Horror</div>
-            </div>
-            <div class="genre-card">
+                <div class="genre-name" style="color: white;">Horror</div>
+            </a>
+            <a href="animelist?searchTitle=&genre=Mystery&status=&year=" class="genre-card">
                 <img src="${pageContext.request.contextPath}/resources/animes/mystery.avif" alt="Mystery Genre">
-                <div class="genre-name">Mystery</div>
-            </div>
+                <div class="genre-name" style="color: white;">Mystery</div>
+            </a>
         </div>
     </section>
 
@@ -272,7 +277,7 @@
     <section class="season-preview">
         <div class="section-header">
             <h2>Summer 2025 Preview</h2>
-            <a href="#" class="view-all" style="color: white;">VIEW ALL</a>
+            <a href="animelist" class="view-all" style="color: white;">VIEW ALL</a>
         </div>
         <div class="season-preview-grid">
             <div class="season-preview-item">
@@ -381,9 +386,8 @@
         <h2>Join Aniverse Community!</h2>
         <p class="join-description">Create your account to track your anime, join discussions, write reviews, and connect with fellow anime fans around the world.</p>
         
-        <form class="subscribe-form" action="register">
-            <input type="email" class="email-input" placeholder="Your Email">
-            <button type="submit" class="subscribe-button"> Sign Up</button>
+        <form class="subscribe-form" action="register" style="justify-content: center">
+            <a href="register" class="login-btn">Sign Up</a>
         </form>
     </section>
     </div>
@@ -398,6 +402,7 @@
         // JavaScript for interactivity
         document.addEventListener('DOMContentLoaded', function() {
             // Tab functionality for tracking section
+
             const tabs = document.querySelectorAll('.tracking-tab');
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -441,7 +446,42 @@
                     // In a real implementation, this would switch carousel slides
                 });
             });
+            
         });
+       
     </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const statsSection = document.querySelector('.stats-section');
+        let hasAnimated = false;
+
+        function animateStats() {
+            if (!hasAnimated && statsSection.getBoundingClientRect().top < window.innerHeight) {
+                statNumbers.forEach(stat => {
+                    const target = +stat.getAttribute('data-target');
+                    let current = 0;
+
+                    const updateStat = () => {
+                        const increment = Math.ceil((target - current) / 50); // Adjust speed
+                        current += increment;
+                        if (current >= target) {
+                            stat.textContent = target.toLocaleString();
+                        } else {
+                            stat.textContent = current.toLocaleString();
+                            requestAnimationFrame(updateStat);
+                        }
+                    };
+
+                    updateStat();
+                });
+                hasAnimated = true; // Ensure it only runs once
+                window.removeEventListener('scroll', animateStats); // Remove the scroll listener
+            }
+        }
+
+        window.addEventListener('scroll', animateStats);
+    });
+</script>
 </body>
 </html>

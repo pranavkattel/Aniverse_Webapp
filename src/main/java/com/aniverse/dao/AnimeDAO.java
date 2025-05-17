@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.aniverse.config.Dbconfig;
+import com.aniverse.config.DbConfig;
 import com.aniverse.model.Anime;
 
 public class AnimeDAO {
@@ -28,7 +28,7 @@ public class AnimeDAO {
                      "LEFT JOIN age_ratings r ON a.rating_id = r.rating_id " +
                      "ORDER BY a.title";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -68,7 +68,7 @@ public class AnimeDAO {
                    "AND (? = 0 OR YEAR(a.start_date) = ?) " +
                    "ORDER BY a.title";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, "%" + title + "%");
@@ -105,7 +105,7 @@ public class AnimeDAO {
         ResultSet rs = null;
         
         try {
-            conn = Dbconfig.getDbConnection();
+            conn = DbConfig.getDbConnection();
             conn.setAutoCommit(false); // Start transaction
             
             String sql = "INSERT INTO anime (title, synopsis, type, episodes, episodes_aired, status, " +
@@ -239,7 +239,7 @@ public class AnimeDAO {
                      "LEFT JOIN age_ratings r ON a.rating_id = r.rating_id " +
                      "WHERE a.anime_id = ?";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, animeId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -274,7 +274,7 @@ public class AnimeDAO {
         PreparedStatement stmt = null;
 
         try {
-            conn = Dbconfig.getDbConnection();
+            conn = DbConfig.getDbConnection();
             conn.setAutoCommit(false); // Start transaction
 
             // Resolve studio_id and rating_id
@@ -362,7 +362,7 @@ public class AnimeDAO {
         boolean deleted = false;
 
         try {
-            conn = Dbconfig.getDbConnection();
+            conn = DbConfig.getDbConnection();
             conn.setAutoCommit(false); // Start transaction
 
             // Delete from anime_genres first due to foreign key constraints
@@ -595,7 +595,7 @@ public class AnimeDAO {
         params.add(pageSize);
         params.add(offset);
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlBuilder.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
@@ -665,7 +665,7 @@ public class AnimeDAO {
             params.add(status);
         }
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sqlBuilder.toString())) {
 
             for (int i = 0; i < params.size(); i++) {
@@ -685,7 +685,7 @@ public class AnimeDAO {
         List<String> genres = new ArrayList<>();
         String sql = "SELECT name FROM genre ORDER BY name";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -701,7 +701,7 @@ public class AnimeDAO {
         List<String> studios = new ArrayList<>();
         String sql = "SELECT studio_name FROM studios ORDER BY studio_name";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -717,7 +717,7 @@ public class AnimeDAO {
         List<String> statuses = new ArrayList<>();
         String sql = "SELECT DISTINCT status FROM anime WHERE status IS NOT NULL ORDER BY status";
 
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 

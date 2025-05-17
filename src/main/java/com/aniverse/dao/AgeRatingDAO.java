@@ -1,7 +1,7 @@
 package com.aniverse.dao;
 
 import com.aniverse.model.AgeRating;
-import com.aniverse.config.Dbconfig;
+import com.aniverse.config.DbConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class AgeRatingDAO {
         
         String sql = "SELECT rating_id, rating_name FROM age_ratings ORDER BY rating_name";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -37,7 +37,7 @@ public class AgeRatingDAO {
         
         String sql = "SELECT rating_id, rating_name FROM age_ratings WHERE rating_id = ?";
         
-        try (Connection conn = Dbconfig.getDbConnection();
+        try (Connection conn = DbConfig.getDbConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setInt(1, ratingId);

@@ -49,7 +49,7 @@
 
         <c:if test="${not empty userFromDb}">
             <%-- Make user data easily accessible --%>
-            <c:set var="user" value="${sessionScope.loggedInUser}" />
+          
 
             <%-- Display general error messages (e.g., connection error) if any --%>
             <%--  <c:if test="${ empty errorMessage}">

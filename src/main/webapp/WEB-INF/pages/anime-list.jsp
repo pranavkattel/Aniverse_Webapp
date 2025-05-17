@@ -177,7 +177,7 @@
                             </c:choose>
                         </div>
                         <div class="anime-card-actions">
-                            <a href="<c:url value='/anime-details?id=${anime.animeId}'/>" class="action-btn details-btn">View Details</a>
+                            <a href="<c:url value='/anime/details?id=${anime.animeId}'/>" class="action-btn details-btn">View Details</a>
                             
                             <%-- Button to trigger the modal --%>
                             <c:if test="${not empty sessionScope.user}">
@@ -221,7 +221,7 @@
 
             <div class="modal-form-group">
                 <label for="modalUserScore">Your Score (0-10):</label>
-                <input type="number" name="userScore" id="modalUserScore" step="0.1" min="0" max="10" placeholder="e.g., 7.5">
+                <input type="number" name="userScore" id="modalUserScore" step="0.1" min="0" max="9.99" placeholder="e.g., 7.5">
             </div>
 
             <div class="modal-form-group">

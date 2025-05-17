@@ -1,8 +1,9 @@
 package com.aniverse.service;
 
-import com.aniverse.config.Dbconfig;
+import com.aniverse.config.DbConfig;
 import com.aniverse.model.User;
 import com.aniverse.model.UserAnimeEntry;
+import com.aniverse.util.PasswordUtil;
 import java.sql.*;
 import java.util.ArrayList; // Assuming you have this User model
 import java.util.List; // Assuming you have this DB config
@@ -21,7 +22,7 @@ public class Service {
 
     public Service() {
         try {
-            dbConn = Dbconfig.getDbConnection();
+            dbConn = DbConfig.getDbConnection();
             if (dbConn == null) {
                 System.err.println("Failed to establish database connection.");
                 isConnectionError = true;
@@ -150,7 +151,6 @@ public class Service {
             System.err.println("getUserByUsername: Connection Error!");
             return null;
         }
-        // Select password hash here
         String query = "SELECT * FROM users WHERE username = ?";
         try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
             stmt.setString(1, username);
@@ -160,7 +160,7 @@ public class Service {
                         result.getInt("user_id"),
                         result.getString("username"),
                         result.getString("email"),
-                        result.getString("password"), // Load the HASHED password
+                        result.getString("password"), // Encrypted password
                         result.getString("role"),
                         result.getTimestamp("created_at"),
                         result.getTimestamp("last_login")
@@ -214,30 +214,31 @@ public class Service {
         if (isConnectionError || providedPassword == null) {
             return false;
         }
-        String query = "SELECT password FROM users WHERE user_id = ?";
+        String query = "SELECT username, password FROM users WHERE user_id = ?";
         try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    String storedHash = rs.getString("password");
-                    if (storedHash == null) {
+                    String username = rs.getString("username");
+                    String encryptedPassword = rs.getString("password");
+
+                    if (encryptedPassword == null) {
                         System.err.println("User ID " + userId + " has no password stored.");
-                        return false; // Or handle appropriately
+                        return false;
                     }
-                    // *** SECURITY: Use BCrypt (or similar) to check the password ***
-                    // return BCrypt.checkpw(providedPassword, storedHash);
-                    // --- TEMPORARY PLAINTEXT CHECK (REMOVE THIS IN PRODUCTION) ---
-                     System.err.println("WARNING: Using plaintext password check. Implement hashing!");
-                     return storedHash.equals(providedPassword);
-                    // --- END TEMPORARY CHECK ---
+
+                    // Decrypt the stored password
+                    String decryptedPassword = PasswordUtil.decrypt(encryptedPassword, username);
+
+                    // Compare the decrypted password with the provided password
+                    return decryptedPassword != null && decryptedPassword.equals(providedPassword);
                 }
             }
         } catch (SQLException e) {
             System.err.println("Error verifying password for user ID " + userId + ": " + e.getMessage());
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-             System.err.println("Error during password check (likely invalid hash format): " + e.getMessage());
-             // This can happen with BCrypt if the stored hash is corrupted
+            System.err.println("Error during password check (likely invalid hash format): " + e.getMessage());
         }
         return false;
     }

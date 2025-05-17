@@ -26,6 +26,7 @@
                 </h2>
                 <p>Welcome to Aniverse, your ultimate destination for discovering, tracking, and discussing everything anime and manga! We are passionate fans just like you, and we built this platform to create the best possible experience for managing your anime journey.</p>
                 <p>Our goal is to provide a comprehensive database, powerful tracking tools, and a vibrant community where fans can connect and share their love for anime and manga.</p>
+                <img src="${pageContext.request.contextPath}/resources/system/about_mission.jpg" alt="Our Mission" class="about-image" onerror="this.style.display='none'">
             </section>
 
             <section class="section">
@@ -40,6 +41,7 @@
                     <li><i class="fas fa-lightbulb"></i>Recommendations: Discover new titles based on your tastes and history.</li>
                     <li><i class="fas fa-calendar-alt"></i>Seasonal Charts: Stay updated with the latest anime releases each season.</li>
                 </ul>
+                <img width=100% src="${pageContext.request.contextPath}/resources/system/anime_girl_2.jpg" alt="What We Offer" class="about-image" onerror="this.style.display='none'">
             </section>
 
             <section class="section">
@@ -48,7 +50,24 @@
                     Our Team
                 </h2>
                 <p>We are a small, dedicated guild of developers and anime lovers united by our quest to build the ultimate platform for the community. We're constantly leveling up Aniverse, adding new features, and ensuring our data is accurate and up-to-date.</p>
+             
+
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-heart icon"></i>
+                    Why Choose Us?
+                </h2>
+                <p>At Aniverse, we prioritize user experience, community engagement, and data accuracy. Whether you're a casual viewer or a hardcore otaku, our platform is designed to cater to your needs. Join us and be part of a growing community of anime enthusiasts!</p>
+              
             </section>
+
+            <section class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-globe icon"></i>
+                    Global Reach
+                </h2>
+                <p>With users from over 100 countries, Aniverse is a truly global platform. We celebrate diversity and aim to bring anime fans together from all corners of the world.</p>
+               
         </div>
     </main>
 

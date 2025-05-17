@@ -361,30 +361,7 @@
                     <div class="section-header">
                         <h2 class="section-title">User Management</h2>
                         
-                            <div style="margin-bottom: 20px;">
-						        <a href="${pageContext.request.contextPath}/customers?action=add" class="button-primary" style="text-decoration: none;">
-						            Add New Customer
-						        </a>
-						         <%-- Reusing button-primary style from editCustomer.jsp, ensure it's defined or adapt --%>
-						         <%-- Add this style if not already present from edit page --%>
-						         <style>
-						            .button-primary {
-						                background-color: #6366f1; /* indigo */
-						                color: #ffffff;
-						                padding: 10px 15px; /* Slightly smaller padding maybe */
-						                border: none;
-						                border-radius: 4px;
-						                cursor: pointer;
-						                font-weight: bold;
-						                display: inline-block; /* Make it behave like a button */
-						                text-align: center;
-						                transition: background-color 0.2s ease;
-						            }
-						            .button-primary:hover {
-						                background-color: #4f46e5; /* darker indigo */
-						            }
-						         </style>
-						    </div>                   
+                                            
                     </div>
                     
                     
@@ -431,7 +408,7 @@
 		                                                <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
 		                                            </button> -->
 		                                           
-		                                            <a href="${pageContext.request.contextPath}/customers?action=edit&userId=${customer.userId}" class="button-link-indigo" title="Edit User ${customer.username}">
+		                                            <a href="${pageContext.request.contextPath}/customers?action=edit&userId=${customer.userId}" class="button-link-indigo" title="View UserDetails ${customer.username}">
 					                                    <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
 					                                    </svg>
@@ -459,30 +436,7 @@
                                     </tbody>
                             </table>
                         </div>
-                        <div class="pagination-container">
-                            <div class="sm-hidden"> <a href="#" class="button button-secondary"> Previous </a>
-                                <a href="#" class="button button-secondary" style="margin-left: 0.75rem;"> Next </a>
-                            </div>
-                            <div class="sm-flex"> <div><p class="pagination-info">Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">97</span> results</p></div>
-                                <div><nav class="pagination-nav" aria-label="Pagination">
-                                    <a href="#">
-                                        <span class="sr-only">Previous</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-                                    </a>
-                                    <a href="#" aria-current="page"> 1 </a>
-                                    <a href="#"> 2 </a>
-                                    <a href="#" class="md-inline-flex"> 3 </a>
-                                    <span class="md-inline-flex"> ... </span>
-                                    <a href="#" class="md-inline-flex"> 8 </a>
-                                    <a href="#"> 9 </a>
-                                    <a href="#"> 10 </a>
-                                    <a href="#">
-                                        <span class="sr-only">Next</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
-                                    </a>
-                                </nav></div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </section>
 
@@ -529,12 +483,12 @@
                                                         </span>
                                                     </td>
                                                     <td class="action-button-group">
-                                                        <a href="${pageContext.request.contextPath}/admin?action=updateAnime&animeId=${anime.animeId}" 
+                                                       <a href="${pageContext.request.contextPath}/anime/details?id=${anime.animeId}" 
                                                            class="button-link-indigo">
                                                             <svg class="button-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                             </svg>
-                                                        </a>
+                                                        </a> 
                                                         <form action="${pageContext.request.contextPath}/admin?action=deleteAnime&animeId=${anime.animeId}" method="POST" 
                                                               style="display: inline;"
                                                               onsubmit="return confirm('Are you sure you want to delete this anime?');">
