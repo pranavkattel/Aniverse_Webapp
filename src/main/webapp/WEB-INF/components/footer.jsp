@@ -19,9 +19,8 @@
             <ul class="footer-links">
                 <li><a href="/Aniverse/home">Home</a></li>
                 <li><a href="/Aniverse/animelist">Anime Database</a></li>
-                <li><a href="/Aniverse/seasonal">Seasonal Chart</a></li>
-                <li><a href="/Aniverse/top">Top Anime</a></li>
-                <li><a href="/Aniverse/reviews">Reviews</a></li>
+                <li><a href="/Aniverse/animelist">Seasonal Chart</a></li>
+                <li><a href="/Aniverse/animelist">Top Anime</a></li>
             </ul>
         </div>
         
@@ -39,22 +38,20 @@
         <div class="footer-column">
             <h3>Account</h3>
             <ul class="footer-links">
-                <li><a href="/Aniverse/profile">My Profile</a></li>
+                <li><a href="/Aniverse/dashboard">My Profile</a></li>
                 <li><a href="/Aniverse/animelist">Anime List</a></li>
-                <li><a href="/Aniverse/mangalist">Manga List</a></li>
-                <li><a href="/Aniverse/myreviews">My Reviews</a></li>
-                <li><a href="/Aniverse/settings">Settings</a></li>
+                <li><a href="/Aniverse/accountsettings">Settings</a></li>
             </ul>
         </div>
     </div>
     
     <div class="footer-bottom">
         <div class="footer-links-bottom">
-            <a href="/Aniverse/privacy">Privacy Policy</a>
-            <a href="/Aniverse/terms">Terms of Service</a>
+            <a href="/Aniverse/aboutus">Privacy Policy</a>
+            <a href="/Aniverse/aboutus">Terms of Service</a>
             <a href="/Aniverse/guidelines">Content Guidelines</a>
-            <a href="/Aniverse/about">About Us</a>
-            <a href="/Aniverse/contacts">Contact</a>
+            <a href="/Aniverse/aboutus">About Us</a>
+            <a href="/Aniverse/contact">Contact</a>
         </div>
         <div class="footer-copyright">© 2025 Aniverse. All Rights Reserved.</div>
     </div>

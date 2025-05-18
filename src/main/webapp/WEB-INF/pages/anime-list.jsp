@@ -86,9 +86,8 @@
                         <option value="">All Statuses</option>
                         <%-- Use param.status to retain value after submit --%>
                         <option value="airing" ${param.status == 'airing' ? 'selected' : ''}>Currently Airing</option>
-                        <option value="finished" ${param.status == 'finished' ? 'selected' : ''}>Finished Airing</option>
+                        <option value="completed" ${param.status == 'completed' ? 'selected' : ''}>Finished Airing</option>
                         <option value="upcoming" ${param.status == 'upcoming' ? 'selected' : ''}>Not Yet Aired</option>
-                         <option value="completed" ${param.status == 'upcoming' ? 'selected' : ''}>Not Yet Aired</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -130,6 +129,15 @@
 						    <option value="2001" ${param.year == '2001' ? 'selected' : ''}>2001</option>
 						    <option value="2000" ${param.year == '2000' ? 'selected' : ''}>2000</option>
 						    <option value="1999" ${param.year == '1999' ? 'selected' : ''}>1999</option>
+						    <option value="1998" ${param.year == '1998' ? 'selected' : ''}>1998</option>
+							<option value="1997" ${param.year == '1997' ? 'selected' : ''}>1997</option>
+							<option value="1996" ${param.year == '1996' ? 'selected' : ''}>1996</option>
+							<option value="1995" ${param.year == '1995' ? 'selected' : ''}>1995</option>
+							<option value="1994" ${param.year == '1994' ? 'selected' : ''}>1994</option>
+							<option value="1993" ${param.year == '1993' ? 'selected' : ''}>1993</option>
+							<option value="1992" ${param.year == '1992' ? 'selected' : ''}>1992</option>
+							<option value="1991" ${param.year == '1991' ? 'selected' : ''}>1991</option>
+							<option value="1990" ${param.year == '1990' ? 'selected' : ''}>1990</option>
 						</c:if>
                     </select>
                 </div>
@@ -156,7 +164,7 @@
                         <div class="anime-card-info">
                             <c:choose>
                                 <c:when test="${not empty anime.score and anime.score > 0}">
-                                    <span class="score">⭐ <fmt:formatNumber value="${anime.score}" pattern="#.0#"/></span>
+                                    <span class="score">${anime.score}</span>
                                 </c:when>
                                 <c:otherwise>
                                     <span class="score no-score">N/A</span>
@@ -247,21 +255,8 @@
   
 
 
-    </div> <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">FAQ</a>
-                <a href="#">API</a>
-            </div>
-            <div class="footer-copyright">
-                &copy; 2025 AnimeTracker. All Rights Reserved. Built with ❤️ for Anime Fans.
-            </div>
-        </div>
-    </footer>
+    </div> 
+     <jsp:include page="/WEB-INF/components/footer.jsp" />
 
     <%-- Include Profile Modal HTML here if needed --%>
     <%-- <jsp:include page="/WEB-INF/views/partials/profileModal.jsp" /> --%>
@@ -342,11 +337,13 @@
                 if (response.ok) {
                     const data = await response.json();
                     if (data && Object.keys(data).length > 0 && !data.error) { // Check if data is not empty and not an error object
+                    	 alert("Anime added successfully!");
                         modalWatchStatusInput.value = data.watchStatus || 'Plan to Watch';
                         modalUserScoreInput.value = data.userScore !== null ? data.userScore : '';
                         modalProgressInput.value = data.progress !== null ? data.progress : '';
                         modalNotesInput.value = data.notes || '';
                         modalSubmitButton.textContent = 'Update List'; // Change button text if editing
+                       
                     } else if (data.error) {
                          console.warn('Error fetching entry details:', data.error);
                          // Keep form blank, default button text
@@ -363,6 +360,9 @@
             }
 
             modal.style.display = "block";
+
+            // Add alert when the modal is opened
+            alert(`You are adding anime to your list.`);
         }
 
         function closeAddToListModal() {

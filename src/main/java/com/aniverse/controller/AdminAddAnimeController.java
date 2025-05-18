@@ -171,8 +171,8 @@ public class AdminAddAnimeController extends HttpServlet {
             
             if (animeId > 0) {
                 // Success - redirect to the anime details page
-                request.setAttribute("message", "Anime added successfully!");
-                response.sendRedirect(request.getContextPath() + "/anime?id=" + animeId);
+                request.setAttribute("success", "Anime added successfully!");
+                response.sendRedirect(request.getContextPath() + "/admin?success=AnimeAdded");
             } else {
                 // Error creating anime
                 request.setAttribute("error", "Failed to add anime.");

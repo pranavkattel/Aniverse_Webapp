@@ -199,17 +199,7 @@ public class AdminPageController extends HttpServlet {
         // Forward to the JSP page (relative path from webapp root)
         request.getRequestDispatcher("WEB-INF/pages/admin_dashboard.jsp").forward(request, response);
 
-        if ("edit".equals(action)) {
-            // Show edit form
-            showEditForm(request, response);
-        } else if ("add".equals(action) && session != null && "admin".equals(session.getAttribute("role"))) { // **** NEW: Handle 'add' action ****
-            // Show the add customer form
-            showAddForm(request, response);
-        }
-        else {
-            // Default action: list all customers
-            listCustomers(request, response);
-        }
+        
 	}
 
 	/**
@@ -226,7 +216,7 @@ public class AdminPageController extends HttpServlet {
                 deleteCustomer(request, response);
                 break;
             case "update":
-                updateCustomer(request, response);
+              
                 break;
             case "insert": // **** NEW: Handle 'insert' action ****
                  insertCustomer(request, response);
@@ -235,102 +225,19 @@ public class AdminPageController extends HttpServlet {
                 
                 break;
             case "updateAnime":
-                updateAnime(request, response);
+               
                 break;
             case "deleteAnime":
                 deleteAnime(request, response);
                 break;
             default:
-                listCustomers(request, response);
+               
                 break;
         }
 	}
     
-    private String getFileExtension(Part part) {
-        String submittedFileName = part.getSubmittedFileName();
-        if (submittedFileName == null) return "";
-        int lastDot = submittedFileName.lastIndexOf('.');
-        if (lastDot == -1) return "";
-        return submittedFileName.substring(lastDot).toLowerCase();
-    }
-
-    private void updateAnime(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            String animeIdStr = request.getParameter("animeId");
-            if (animeIdStr == null || animeIdStr.trim().isEmpty()) {
-                 response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedInvalidId#anime-management");
-                return;
-            }
-            int animeId = Integer.parseInt(animeIdStr);
-
-            String title = request.getParameter("title");
-            String genresString = request.getParameter("genres");
-            String type = request.getParameter("type");
-            String episodesStr = request.getParameter("episodes");
-            String status = request.getParameter("status");
-            String imageUrl = request.getParameter("imageUrl");
-            String synopsis = request.getParameter("synopsis");
-
-            if (title == null || title.trim().isEmpty()) {
-                // Forward back to the edit form with an error and pre-filled data if possible
-                // For simplicity, redirecting now.
-                response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedMissingTitle&editAnimeId=" + animeId + "#add-anime");
-                return;
-            }
-            
-            // It's better to fetch the existing anime to update its fields,
-            // rather than creating a new object. This preserves fields not on the form.
-            Anime animeToUpdate = animeService.getAnimeById(animeId); // You'll need this method in AnimeService/DAO
-            
-            if (animeToUpdate == null) {
-               response.sendRedirect(request.getContextPath() + "/admin?errorAnime=AnimeNotFoundForUpdate#anime-management");
-               return;
-            }
-            
-            animeToUpdate.setTitle(title.trim());
-            animeToUpdate.setType(type);
-            animeToUpdate.setStatus(status);
-            animeToUpdate.setSynopsis(synopsis);
-
-            if (episodesStr != null && !episodesStr.trim().isEmpty()) {
-                try {
-                    animeToUpdate.setEpisodes(Integer.parseInt(episodesStr));
-                } catch (NumberFormatException e) {
-                    // Keep existing episodes value if new one is invalid, or set to 0
-                    // animeToUpdate.setEpisodes(animeToUpdate.getEpisodes()); // No change
-                    System.err.println("Invalid number format for episodes during update: " + episodesStr + ". Keeping existing value or defaulting.");
-                    // Or set to a default if that's preferred: animeToUpdate.setEpisodes(0);
-                }
-            } else {
-                 // If episodes field is submitted blank, decide behavior: clear it (set to 0/null) or keep existing.
-                 // Setting to 0 if blank:
-                 animeToUpdate.setEpisodes(0); 
-            }
-
-            if (genresString != null && !genresString.trim().isEmpty()) {
-                 List<String> genreList = Arrays.stream(genresString.split(","))
-                                             .map(String::trim)
-                                             .filter(genreName -> !genreName.isEmpty())
-                                             .collect(Collectors.toList());
-                animeToUpdate.setGenres(genreList);
-            } else {
-                // If genres string is empty, clear the existing genres
-                animeToUpdate.setGenres(new ArrayList<>()); 
-            }
-
-            Anime success = animeService.updateAnime(animeToUpdate); 
-            System.out.print(success);
-            
-
-           
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedInvalidIdFormat#anime-management");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/admin?errorAnime=UpdateFailedServerError#anime-management");
-        }
-    }
+  
+    
 
     private void deleteAnime(HttpServletRequest request, HttpServletResponse response) throws IOException {
     	System.out.print("rahuysaj");
@@ -354,73 +261,8 @@ public class AdminPageController extends HttpServlet {
         }
     }
 
-	private void listCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-    }
-
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            User existingUser = service.getUserById(userId);
-            if (existingUser != null && "customer".equals(existingUser.getRole())) { // Ensure it's a customer
-                request.setAttribute("customerToEdit", existingUser);
-                request.getRequestDispatcher("WEB-INF/pages/editCustomer.jsp").forward(request, response);
-            } else {
-                 // Handle case where user not found or is not a customer
-                 System.err.println("Edit request for non-existent or non-customer user ID: " + userId);
-                 response.sendRedirect(request.getContextPath() + "/admin"); // Redirect with error param
-            }
-        } catch (NumberFormatException e) {
-             System.err.println("Invalid User ID format for edit: " + request.getParameter("userId"));
-             response.sendRedirect(request.getContextPath() + "/admin?error=InvalidUserId"); // Redirect with error param
-        }
-    }
-
-     private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            // Retrieve other fields if you added them to the form and service update method
-
-            // You might want to fetch the existing user to keep other fields (like role, password hash, etc.)
-            User userToUpdate = service.getUserById(userId); // Fetch existing data first
-
-            if (userToUpdate == null) {
-                 System.err.println("Update failed: User not found with ID: " + userId);
-                 response.sendRedirect(request.getContextPath() + "/admin?error=UpdateFailedUserNotFound");
-                 return;
-            }
-
-            // Update only the fields from the form
-            userToUpdate.setUsername(username);
-            userToUpdate.setEmail(email);
-            // userToUpdate.setSomeOtherField(request.getParameter("someOtherField"));
-
-            boolean success = service.updateUser(userToUpdate);
-
-            if (success) {
-                System.out.println("User updated successfully: ID " + userId);
-                 response.sendRedirect(request.getContextPath() + "/admin?success=UserUpdated"); // Redirect after successful POST
-            } else {
-                 System.err.println("Update failed for user ID: " + userId);
-                 // Optionally, redirect back to edit form with an error message
-                 // request.setAttribute("errorMessage", "Update failed. Please try again.");
-                 // request.setAttribute("customerToEdit", userToUpdate); // Send back the attempted data
-                 // request.getRequestDispatcher("/editCustomer.jsp").forward(request, response);
-                 // For simplicity now, just redirect to list
-                 response.sendRedirect(request.getContextPath() + "/admin?error=UpdateFailed");
-            }
-
-        } catch (NumberFormatException e) {
-             System.err.println("Invalid User ID format for update: " + request.getParameter("userId"));
-             response.sendRedirect(request.getContextPath() + "/admin?error=InvalidUserId");
-        } /*catch (ServletException e) { // Catch potential forward exception if using forward in error case
-             System.err.println("Servlet Exception during update forward: " + e.getMessage());
-             response.sendRedirect(request.getContextPath() + "/customers?error=ServerError");
-        }*/
-
-    }
+	
+    
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
          try {
@@ -439,10 +281,7 @@ public class AdminPageController extends HttpServlet {
              response.sendRedirect(request.getContextPath() + "/admin?error=InvalidUserId");
         }
     }
-    private void showAddForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Just forward to the JSP page for adding a customer
-        request.getRequestDispatcher("WEB-INF/pages/addCustomer.jsp").forward(request, response);
-    }
+
 
     // **** NEW Method to insert the customer ****
     private void insertCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {

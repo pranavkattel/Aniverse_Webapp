@@ -95,7 +95,7 @@
         <a href="${pageContext.request.contextPath}/home" class="${pageContext.request.servletPath eq '/WEB-INF/pages/home.jsp' ? 'active' : ''}">Home</a>
         <a href="${pageContext.request.contextPath}/animelist" class="${pageContext.request.servletPath eq '/WEB-INF/pages/anime-list.jsp' ? 'active' : ''}">Anime</a>
         <a href="${pageContext.request.contextPath}/contact" class="${pageContext.request.servletPath eq '/WEB-INF/pages/Contact.jsp' ? 'active' : ''}">Contacts</a>
-        <a href="${pageContext.request.contextPath}/aboutus" class="${pageContext.request.servletPath eq '/WEB-INF/pages/AboutUs.jsp' ? 'active' : ''}">About</a>
+        <a href="${pageContext.request.contextPath}/aboutus" class="${pageContext.request.servletPath eq '/WEB-INF/pages/about.jsp' ? 'active' : ''}">About</a>
     </div>
 
 <%--     <c:if test="${empty sessionScope.user}">

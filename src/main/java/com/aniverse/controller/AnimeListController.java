@@ -28,38 +28,7 @@ public class AnimeListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-		
-//    	String title = request.getParameter("searchTitle");
-//    	String genre = request.getParameter("genre");
-//    	
-//
-//    	try {
-//    	List<Anime> resultList;
-//    	List<String> genres = animeService.getAllGenres();
-//    	request.setAttribute("genresList", genres);
-//
-//        if ((title != null && !title.trim().isEmpty()) &&
-//            (genre != null && !genre.trim().isEmpty())) {
-//
-//            resultList = animeService.getAnimesByTitleAndGenre(title, genre);
-//
-//        } else if (title != null && !title.trim().isEmpty()) {
-//
-//            resultList = animeService.searchAnimeByTitle(title);
-//
-//        } else if (genre != null && !genre.trim().isEmpty()) {
-//
-//            resultList = animeService.getAnimesByGenre(genre);
-//
-//        } else {
-//            resultList = animeService.getAllAnimes(); // optional: show all if no filter
-//        }
-//        request.setAttribute("animes", resultList);
-//    	} catch (SQLException | ClassNotFoundException e) {
-//    	    e.printStackTrace();
-//    	    request.setAttribute("error", "Error retrieving anime.");
-//    	    request.getRequestDispatcher("error.jsp").forward(request, response);
-//    	}
+
     	String title = request.getParameter("searchTitle");
     	String genre = request.getParameter("genre");
     	String status = request.getParameter("status");
@@ -101,7 +70,7 @@ public class AnimeListController extends HttpServlet {
     	} catch (SQLException | ClassNotFoundException e) {
     	    e.printStackTrace();
     	    request.setAttribute("error", "Error retrieving anime.");
-    	    request.getRequestDispatcher("error.jsp").forward(request, response);
+    	   
     	}
     	
     	
@@ -112,40 +81,6 @@ public class AnimeListController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        // For form submissions, just redirect to GET with parameters
-		/*
-		 * StringBuilder redirectUrl = new StringBuilder("anime-list?");
-		 * 
-		 * // Add filter parameters if present if (request.getParameter("genre") != null
-		 * && !request.getParameter("genre").isEmpty()) {
-		 * redirectUrl.append("genre=").append(request.getParameter("genre")).append("&"
-		 * ); }
-		 * 
-		 * if (request.getParameter("studio") != null &&
-		 * !request.getParameter("studio").isEmpty()) {
-		 * redirectUrl.append("studio=").append(request.getParameter("studio")).append(
-		 * "&"); }
-		 * 
-		 * if (request.getParameter("status") != null &&
-		 * !request.getParameter("status").isEmpty()) {
-		 * redirectUrl.append("status=").append(request.getParameter("status")).append(
-		 * "&"); }
-		 * 
-		 * if (request.getParameter("sortBy") != null &&
-		 * !request.getParameter("sortBy").isEmpty()) {
-		 * redirectUrl.append("sortBy=").append(request.getParameter("sortBy")).append(
-		 * "&"); }
-		 * 
-		 * if (request.getParameter("page") != null &&
-		 * !request.getParameter("page").isEmpty()) {
-		 * redirectUrl.append("page=").append(request.getParameter("page")).append("&");
-		 * }
-		 * 
-		 * if (request.getParameter("pageSize") != null &&
-		 * !request.getParameter("pageSize").isEmpty()) {
-		 * redirectUrl.append("pageSize=").append(request.getParameter("pageSize")); }
-		 * 
-		 * response.sendRedirect(redirectUrl.toString());
-		 */
+       
     }
 }

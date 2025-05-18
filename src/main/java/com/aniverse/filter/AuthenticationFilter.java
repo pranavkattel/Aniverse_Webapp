@@ -17,12 +17,12 @@ public class AuthenticationFilter implements Filter {
     // Public pages accessible to all users
     private static final String[] PUBLIC_PAGES = {
         "/login", "/logout", "/register", "/home", 
-        "/", "/aboutUs", "/contact", "/animelist", "/anime/details", "/testpass"
+        "/", "/aboutus", "/contact", "/animelist", "/anime/details", "/test"
     };
     
     // Admin-only pages
     private static final String[] ADMIN_PAGES = {
-        "/admin", "/adminAddAnime"
+        "/admin", "/adminAddAnime" 
     };
 
     @Override
@@ -47,7 +47,7 @@ public class AuthenticationFilter implements Filter {
 //        
         // Allow access to static resources without authentication
         if (uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".css") || 
-            uri.endsWith(".js") || uri.endsWith(".ico")) {
+            uri.endsWith(".js") || uri.endsWith(".ico") || uri.endsWith(".webp") || uri.endsWith(".avif")) {
             chain.doFilter(request, response);
             return;
         }
@@ -63,13 +63,21 @@ public class AuthenticationFilter implements Filter {
         // Check if the requested page is public
         boolean isPublicPage = isPathInArray(servletPath, PUBLIC_PAGES);
         boolean isAdminPage = isPathInArray(servletPath, ADMIN_PAGES);
-        
+
+        System.out.println("DEBUG - Page " + servletPath);
          System.out.println("DEBUG - IsPublicPage: " + isPublicPage);
          System.out.println("DEBUG - IsAdminPage: " + isAdminPage);
         
         // Always allow access to public pages
         if (isPublicPage) {
             // Redirect logged-in users away from login/register if needed
+        	if ("admin".equals(role) && 
+        		    !servletPath.equals("/logout") && 
+        		    !servletPath.equals("/anime/details")) {
+                // If admin tries to access public pages, redirect to admin dashboard
+                res.sendRedirect(contextPath + "/admin");
+                return;
+            }
             if ((servletPath.equals("/login") || servletPath.equals("/register")) && isLoggedIn) {
                 if ("admin".equals(role)) {
                     res.sendRedirect(contextPath + "/admin");

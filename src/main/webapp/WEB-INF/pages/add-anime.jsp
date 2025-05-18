@@ -175,7 +175,7 @@
                 <div class="checkbox-group">
                     <c:forEach items="${genres}" var="genre">
                         <div class="checkbox-item">
-                            <input type="checkbox" id="genre${genre.genreId}" name="genres" value="${genre.genreId}" required>
+                            <input type="checkbox" id="genre${genre.genreId}" name="genres" value="${genre.genreId}" >
                             <label for="genre${genre.genreId}">${genre.name}</label>
                         </div>
                     </c:forEach>
