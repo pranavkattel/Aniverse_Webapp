@@ -88,7 +88,7 @@
                  <div class="filter-group">
                     <label for="status-filter">Status</label>
                     <select id="status-filter" name="status">
-                        <option value="">All Statuses</option>
+                        <option value="">All Status</option>
                         <%-- Use param.status to retain value after submit --%>
                         <option value="airing" ${param.status == 'airing' ? 'selected' : ''}>Currently Airing</option>
                         <option value="completed" ${param.status == 'completed' ? 'selected' : ''}>Finished Airing</option>

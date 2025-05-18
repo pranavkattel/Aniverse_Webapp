@@ -76,7 +76,7 @@
                         <select id="status" name="status" class="form-control" required>
                             <option value="">Select Status</option>
                             <option value="airing">Currently Airing</option>
-                            <option value="finished">Finished Airing</option>
+                            <option value="completed">Finished Airing</option>
                             <option value="upcoming">Not Yet Aired</option>
                         </select>
                     </div>

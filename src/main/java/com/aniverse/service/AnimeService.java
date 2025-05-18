@@ -132,21 +132,7 @@ public class AnimeService {
     /**
      * Get anime with filtering and pagination
      */
-    public List<Anime> getFilteredAnimes(String genre, String studio, String status,
-                                         String sortBy, int page, int pageSize)
-                                         throws SQLException, ClassNotFoundException {
-        // Default page to 1 if invalid
-        if (page < 1) {
-            page = 1;
-        }
-
-        // Default page size to 10 if invalid
-        if (pageSize < 1) {
-            pageSize = 10;
-        }
-
-        return animeDAO.getFilteredAnimes(genre, studio, status, sortBy, page, pageSize);
-    }
+   
 
     /**
      * Get the total count of anime matching the filters
