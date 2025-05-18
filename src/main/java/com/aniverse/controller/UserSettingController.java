@@ -111,7 +111,7 @@ public class UserSettingController extends HttpServlet {
                         if (success) {
                             // Re-encrypt the password with the new username
                             String encryptedPassword = PasswordUtil.encrypt(newUsername.trim(), PasswordUtil.decrypt(currentUser.getPassword(), currentUser.getUsername()));
-                            boolean passwordUpdateSuccess = service.updatePassword(currentUser.getUserId(), encryptedPassword);
+                            boolean passwordUpdateSuccess = service.updatePassword(currentUser.getUserId(),currentUser.getUsername(), encryptedPassword);
 
                             if (passwordUpdateSuccess) {
                                 request.setAttribute("successMessage_changeUsername", "Username updated successfully!");
@@ -155,7 +155,7 @@ public class UserSettingController extends HttpServlet {
                          request.setAttribute("errorMessage_changePassword", "New passwords do not match.");
                     } else {
                         // Ensure your service.updatePassword HASHES the password!
-                        boolean success = service.updatePassword(currentUser.getUserId(), newPassword);
+                        boolean success = service.updatePassword(currentUser.getUserId(), currentUser.getUsername(), newPassword);
                         if (success) {
                             request.setAttribute("successMessage_changePassword", "Password updated successfully!");
                             // No need to set updateOccurred = true unless you redisplay password info

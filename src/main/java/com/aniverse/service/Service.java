@@ -319,7 +319,7 @@ public class Service {
      * @param newPassword The new plain text password (will be hashed).
      * @return true if the update was successful, false otherwise.
      */
-    public boolean updatePassword(int userId, String newPassword) {
+    public boolean updatePassword(int userId, String username, String newPassword) {
         if (isConnectionError || newPassword == null || newPassword.isEmpty()) {
              // Add password complexity checks here if desired
             return false;
@@ -328,8 +328,8 @@ public class Service {
         // *** SECURITY: Hash the new password before storing ***
         // String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
         // --- TEMPORARY PLAINTEXT STORAGE (REMOVE THIS IN PRODUCTION) ---
-        String hashedPassword = newPassword; // Replace with actual hashing
-        System.err.println("WARNING: Storing plaintext password. Implement hashing!");
+        String hashedPassword = PasswordUtil.encrypt(username, newPassword);; // Replace with actual hashing
+
         // --- END TEMPORARY ---
 
 
@@ -388,14 +388,24 @@ public class Service {
             System.err.println("deleteUser: Connection Error!");
             return false;
         }
-        System.out.println("deletinggg");
-        // Consider related data deletion (posts, comments, watchlist entries)
-        // using transactions or cascaded deletes in the database schema.
-        String query = "DELETE FROM users WHERE user_id = ?";
-        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
-            stmt.setInt(1, userId);
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0; // Return true if at least one row was deleted
+        System.out.println("Deleting user with ID: " + userId);
+
+        // First, delete related records from user_anime_list
+        String deleteRelatedQuery = "DELETE FROM user_anime_list WHERE user_id = ?";
+        String deleteUserQuery = "DELETE FROM users WHERE user_id = ?";
+
+        try (PreparedStatement deleteRelatedStmt = dbConn.prepareStatement(deleteRelatedQuery);
+             PreparedStatement deleteUserStmt = dbConn.prepareStatement(deleteUserQuery)) {
+
+            // Delete related records
+            deleteRelatedStmt.setInt(1, userId);
+            deleteRelatedStmt.executeUpdate();
+
+            // Now delete the user
+            deleteUserStmt.setInt(1, userId);
+            int rowsAffected = deleteUserStmt.executeUpdate();
+
+            return rowsAffected > 0;
 
         } catch (SQLException e) {
             System.err.println("Error deleting user ID " + userId + ": " + e.getMessage());
@@ -403,6 +413,7 @@ public class Service {
             return false;
         }
     }
+
 
     // --- User Addition (Ensure Hashing) ---
     public boolean addUser(User user) {
