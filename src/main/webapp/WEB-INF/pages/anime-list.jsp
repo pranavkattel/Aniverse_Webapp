@@ -47,7 +47,12 @@
     <div class="container">
         
         <jsp:include page="/WEB-INF/components/header.jsp" />
-        
+ <c:if test="${not empty sessionScope.successMessage}">
+    <div class="success-message">
+        <h1>${sessionScope.successMessage}</h1>
+    </div>
+    <c:remove var="successMessage" scope="session" />
+</c:if>
         <%-- Filters form - submits back to the browse servlet/JSP --%>
         <form action="<c:url value='/animelist'/>" method="get">
             <section class="filters-sort-section">
@@ -147,7 +152,10 @@
                 </div>
             </section>
         </form> <%-- End of filters form --%>
+
 <section class="anime-grid" id="anime-grid-results">
+
+   
     <c:choose>
         <c:when test="${not empty animes}">
             <c:forEach var="anime" items="${animes}">

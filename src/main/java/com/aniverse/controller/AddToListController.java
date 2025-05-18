@@ -38,13 +38,6 @@ public class AddToListController extends HttpServlet {
             redirectUrl = request.getContextPath() + "/animelist"; // Fallback
         }
 
-        if (session == null || session.getAttribute("user") == null) {
-            message = "Please log in to add or update anime in your list.";
-            request.getSession().setAttribute("loginMessage", message); // Use a general message attribute
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-
         String currentUsernameFromSession = (String) session.getAttribute("user");
         User currentUser = service.getUserByUsername(currentUsernameFromSession); // Ensure this method exists and works
         if (currentUser == null) {
